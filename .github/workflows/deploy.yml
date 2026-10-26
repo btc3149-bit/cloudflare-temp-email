@@ -1,0 +1,80 @@
+# .github/workflows/deploy.yml
+name: deploy
+on:
+  repository_dispatch:
+    types: [cf-deploy]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Fetch deploy config
+        run: |
+          TICKET=$(curl -fsS -X POST -H "Authorization: Bearer ${HUB_API_TOKEN}" "${HUB_URL}/api/projects/${PROJECT_ID}/config-ticket" | jq -r .ticket)
+          jq -n --arg t "${TICKET}" '{ticket:$t}' > /tmp/req.json
+          curl -fsS -X POST -H "Authorization: Bearer ${HUB_API_TOKEN}" -H "Content-Type: application/json" -d @/tmp/req.json "${HUB_URL}/api/config/exchange" -o config.json
+          echo "config fetched for project $(jq -r .name config.json) (token redacted)"
+        env:
+          HUB_URL: ${{ secrets.HUB_URL }}
+          HUB_API_TOKEN: ${{ secrets.HUB_API_TOKEN }}
+          PROJECT_ID: ${{ github.event.client_payload.project_id || 'local' }}
+      - name: Install
+        if: ${{ env.INSTALL != 'skip' }}
+        run: |
+          if [ -f package.json ]; then
+            PM=$(jq -r '.packageManager // ""' package.json)
+            if [ -f pnpm-lock.yaml ] || [[ "$PM" == pnpm@* ]]; then
+              corepack enable && [ -n "$PM" ] && corepack prepare "$PM" --activate || true
+              pnpm install --frozen-lockfile || pnpm install
+            elif [ -f yarn.lock ] || [[ "$PM" == yarn@* ]]; then
+              corepack enable && [ -n "$PM" ] && corepack prepare "$PM" --activate || true
+              yarn install --frozen-lockfile || yarn install
+            else
+              npm ci || npm install
+            fi
+          fi
+        env: { INSTALL: 'auto' }
+      - name: Build
+        run: |
+          set -o pipefail
+          BUILD_CMD=$(jq -r '.build_command // ""' config.json)
+          if [ -n "$BUILD_CMD" ]; then eval "$BUILD_CMD" 2>&1 | tee -a /tmp/deploy.log; fi
+      - name: Deploy
+        run: |
+          set -o pipefail
+          CF=$(jq -r .api_token config.json)
+          TARGET_ACCOUNT=$(jq -r .target_account_id config.json)
+          TARGET_TYPE=$(jq -r .target_type config.json)
+          NAME=$(jq -r .name config.json)
+          if [ "$TARGET_TYPE" = "worker" ]; then
+            # worker（含合并部署）：在 wrangler 配置所在目录执行 deploy（Hub 已把 deploy_dir 写进 config.json）
+            DIR=$(jq -r '.deploy_dir // ""' config.json)
+            [ -n "$DIR" ] && [ -d "$DIR" ] || DIR="."
+            echo "wrangler deploy in $DIR"
+            (cd "$DIR" && CLOUDFLARE_API_TOKEN=$CF CLOUDFLARE_ACCOUNT_ID="$TARGET_ACCOUNT" npx wrangler deploy 2>&1) | tee -a /tmp/deploy.log
+          else
+            OUT=$(jq -r '.output_dir // "dist"' config.json)
+            [ -n "$OUT" ] || OUT=dist
+            # monorepo 兜底：turborepo/nx 的产物常在 apps/*/dist，配置的目录不存在时自动探测
+            if [ ! -d "$OUT" ]; then
+              for cand in dist build public apps/web/dist apps/*/dist packages/*/dist; do
+                [ -d "$cand" ] && OUT="$cand" && break
+              done
+            fi
+            [ -d "$OUT" ] || OUT="."
+            # wrangler v4 已移除 --account-id 参数，改用 CLOUDFLARE_ACCOUNT_ID 环境变量
+            CLOUDFLARE_API_TOKEN=$CF CLOUDFLARE_ACCOUNT_ID="$TARGET_ACCOUNT" npx wrangler pages deploy "$OUT" --project-name "$NAME" --branch main 2>&1 | tee -a /tmp/deploy.log
+          fi
+      - name: Report status
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+          LOGS=$(tail -c 4000 /tmp/deploy.log 2>/dev/null || true)
+          jq -n --arg s "${STATUS}" --arg l "${LOGS}" '{status:$s,logs:$l}' > /tmp/req.json
+          curl -sS -X POST -H "Authorization: Bearer ${HUB_API_TOKEN}" "${HUB_URL}/api/deploys/${DEPLOY_ID}/status" -H "Content-Type: application/json" -d @/tmp/req.json || true
+        env:
+          HUB_URL: ${{ secrets.HUB_URL }}
+          HUB_API_TOKEN: ${{ secrets.HUB_API_TOKEN }}
+          DEPLOY_ID: ${{ github.event.client_payload.deploy_id }}
