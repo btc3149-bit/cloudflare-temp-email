@@ -6,8 +6,6 @@ keep_vars = true
 
 [vars]
 PREFIX = "tmp"
-JWT_SECRET = "f03684ff76a54063b3bb2027225514e46a6cdc4326ffdae1b0b5bc1ce6dc73b5"
-ADMIN_PASSWORDS = '["TxpeRdaQzcv2Ry7KMb"]'
 FRONTEND_URL = "https://68626.us.ci"
 BLACK_LIST = ""
 ENABLE_USER_CREATE_EMAIL = true
