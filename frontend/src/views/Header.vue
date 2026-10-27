@@ -281,7 +281,7 @@ onMounted(async () => {
                         class="header-version-button"
                         tag="a"
                         target="_blank"
-                        href="https://github.com/dreamhunter2333/cloudflare-temp-email"
+                        href="https://github.com/btc3149-bit/cloudflare-temp-email"
                     >
                         <template #icon>
                             <n-icon :component="GithubAlt" />
@@ -307,7 +307,7 @@ onMounted(async () => {
                         class="mobile-menu-utility-button"
                         target="_blank"
                         rel="noopener noreferrer"
-                        href="https://github.com/dreamhunter2333/cloudflare-temp-email"
+                        href="https://github.com/btc3149-bit/cloudflare-temp-email"
                     >
                         <n-icon :component="GithubAlt" />
                         <span class="mobile-menu-action-label">{{ version || 'Github' }}</span>
