@@ -42,6 +42,21 @@ jobs:
           [ -f /tmp/buildenv.sh ] && source /tmp/buildenv.sh || true
           BUILD_CMD=$(jq -r '.build_command // ""' config.json)
           if [ -n "$BUILD_CMD" ]; then eval "$BUILD_CMD" 2>&1 | tee -a /tmp/deploy.log; fi
+      - name: Deploy Backend Worker
+        run: |
+          set -o pipefail
+          WDIR=$(jq -r '.worker_deploy.dir // ""' config.json)
+          if [ -z "$WDIR" ]; then echo "no backend worker, skip"; exit 0; fi
+          if [ ! -f "$WDIR/wrangler.toml" ] && [ ! -f "$WDIR/wrangler.json" ] && [ ! -f "$WDIR/wrangler.jsonc" ]; then
+            echo "WARN: no wrangler config in $WDIR, skip backend deploy"; exit 0
+          fi
+          echo "Deploying backend worker from $WDIR (before Pages: service binding requires target worker to exist)"
+          if [ -f "$WDIR/package.json" ]; then
+            (cd "$WDIR" && (npx pnpm install --no-frozen-lockfile 2>/dev/null || npm install --no-audit --no-fund)) || echo "WARN: worker deps install error, try deploy anyway"
+          fi
+          CF=$(jq -r .api_token config.json)
+          TARGET_ACCOUNT=$(jq -r .target_account_id config.json)
+          (cd "$WDIR" && CLOUDFLARE_API_TOKEN=$CF CLOUDFLARE_ACCOUNT_ID="$TARGET_ACCOUNT" npx wrangler deploy 2>&1) | tee -a /tmp/deploy.log
       - name: Deploy
         run: |
           set -o pipefail
@@ -72,21 +87,6 @@ jobs:
               CLOUDFLARE_API_TOKEN=$CF CLOUDFLARE_ACCOUNT_ID="$TARGET_ACCOUNT" npx wrangler pages deploy "$OUT" --project-name "$NAME" --branch main 2>&1 | tee -a /tmp/deploy.log
             fi
           fi
-      - name: Deploy Backend Worker
-        run: |
-          set -o pipefail
-          WDIR=$(jq -r '.worker_deploy.dir // ""' config.json)
-          if [ -z "$WDIR" ]; then echo "no backend worker, skip"; exit 0; fi
-          if [ ! -f "$WDIR/wrangler.toml" ] && [ ! -f "$WDIR/wrangler.json" ] && [ ! -f "$WDIR/wrangler.jsonc" ]; then
-            echo "WARN: no wrangler config in $WDIR, skip backend deploy"; exit 0
-          fi
-          echo "Deploying backend worker from $WDIR"
-          if [ -f "$WDIR/package.json" ]; then
-            (cd "$WDIR" && (npx pnpm install --no-frozen-lockfile 2>/dev/null || npm install --no-audit --no-fund)) || echo "WARN: worker deps install error, try deploy anyway"
-          fi
-          CF=$(jq -r .api_token config.json)
-          TARGET_ACCOUNT=$(jq -r .target_account_id config.json)
-          (cd "$WDIR" && CLOUDFLARE_API_TOKEN=$CF CLOUDFLARE_ACCOUNT_ID="$TARGET_ACCOUNT" npx wrangler deploy 2>&1) | tee -a /tmp/deploy.log
       - name: Report status
         if: always()
         run: |
