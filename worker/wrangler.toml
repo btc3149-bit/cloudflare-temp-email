@@ -6,7 +6,15 @@ keep_vars = true
 
 [vars]
 PREFIX = "tmp"
+JWT_SECRET = "f03684ff76a54063b3bb2027225514e46a6cdc4326ffdae1b0b5bc1ce6dc73b5"
+ADMIN_PASSWORDS = '["TxpeRdaQzcv2Ry7KMb"]'
+FRONTEND_URL = "https://cloudflare-temp-email-cwz.pages.dev"
+BLACK_LIST = ""
+ENABLE_USER_CREATE_EMAIL = true
+ENABLE_USER_DELETE_EMAIL = true
+ENABLE_AUTO_REPLY = false
 DOMAINS = '["https://cloudflare-temp-email-cwz.pages.dev"]'
+DEFAULT_DOMAINS = '["https://cloudflare-temp-email-cwz.pages.dev"]'
 
 [[d1_databases]]
 binding = "DB"
