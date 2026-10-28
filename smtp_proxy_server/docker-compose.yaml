@@ -1,6 +1,6 @@
 services:
   smtp_proxy_server:
-    image: ghcr.io/dreamhunter2333/cloudflare-temp-email/smtp_proxy_server:latest
+    image: ghcr.io/btc3149-bit/cloudflare_temp_email/smtp_proxy_server:latest
     # build:
     #   context: .
     #   dockerfile: dockerfile

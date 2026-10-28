@@ -52,7 +52,7 @@ send_email = [
 > Resend 域名验证的 CNAME 记录**必须设置为 仅 DNS**（灰云），在
 > Cloudflare DNS 控制面板中代理（橙云）记录会阻止 Resend
 > 完成验证，且一次失败的尝试可能需要数小时才能重试。
-> 参见 [#515](https://github.com/dreamhunter2333/cloudflare-temp-email/issues/515)。
+> 参见 [#515](https://github.com/btc3149-bit/cloudflare_temp_email/issues/515)。
 
 `API KEYS` 页面创建 `api key`
 

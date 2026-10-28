@@ -11,14 +11,24 @@ const safeAnnouncement = computed(() => sanitizeHtml(announcement.value))
     <div class="center">
         <n-card :bordered="false" embedded>
             <div v-html="safeAnnouncement"></div>
-            <n-button tag="a" target="_blank" href="https://github.com/btc3149-bit/cloudflare-temp-email">
+            <n-button tag="a" target="_blank" href="https://github.com/btc3149-bit/cloudflare_temp_email">
                 <template #icon>
                     <n-icon :component="GithubAlt" />
                 </template>
                 Github
             </n-button>
-            <!-- TODO: Discord 社区链接待配置后在此恢复按钮 -->
-            <!-- TODO: Telegram 社区链接待配置后在此恢复按钮 -->
+            <n-button tag="a" target="_blank" href="#">
+                <template #icon>
+                    <n-icon :component="Discord" />
+                </template>
+                Discord
+            </n-button>
+            <n-button tag="a" target="_blank" href="#">
+                <template #icon>
+                    <n-icon :component="Telegram" />
+                </template>
+                Telegram
+            </n-button>
         </n-card>
     </div>
 </template>

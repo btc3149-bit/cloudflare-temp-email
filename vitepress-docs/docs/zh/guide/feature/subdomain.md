@@ -8,7 +8,7 @@ mail channel 已不被支持，下面参考中仅限收件部分。
 
 参考
 
-- [配置子域名邮箱](https://github.com/dreamhunter2333/cloudflare-temp-email/issues/164#issuecomment-2082612710)
+- [配置子域名邮箱](https://github.com/btc3149-bit/cloudflare_temp_email/issues/164#issuecomment-2082612710)
 
 ## 创建随机二级域名地址
 
@@ -59,7 +59,7 @@ RANDOM_SUBDOMAIN_LENGTH = 8
 >
 > 随机子域名场景下推荐使用 **方案 (1)**。如果不做这一步，随机子域名功能在前端看起来正常，但实际邮件不会进入 Worker。
 >
-> 参考 issue：[#1035](https://github.com/dreamhunter2333/cloudflare-temp-email/issues/1035)
+> 参考 issue：[#1035](https://github.com/btc3149-bit/cloudflare_temp_email/issues/1035)
 
 ## 允许 API 直接指定其他子域名
 

@@ -18,7 +18,7 @@ export const en = defineConfig({
         },
 
         editLink: {
-            pattern: 'https://github.com/dreamhunter2333/cloudflare-temp-email/edit/main/vitepress-docs/docs/:path',
+            pattern: 'https://github.com/btc3149-bit/cloudflare_temp_email/edit/main/vitepress-docs/docs/:path',
             text: 'Edit this page on GitHub'
         },
 
@@ -78,11 +78,11 @@ function nav(): DefaultTheme.NavItem[] {
             items: [
                 {
                     text: 'CHANGELOG',
-                    link: 'https://github.com/dreamhunter2333/cloudflare-temp-email/blob/main/CHANGELOG.md'
+                    link: 'https://github.com/btc3149-bit/cloudflare_temp_email/blob/main/CHANGELOG.md'
                 },
                 {
                     text: 'Contribute',
-                    link: 'https://github.com/dreamhunter2333/cloudflare-temp-email'
+                    link: 'https://github.com/btc3149-bit/cloudflare_temp_email'
                 }
             ]
         }

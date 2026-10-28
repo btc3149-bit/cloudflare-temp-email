@@ -1,5 +1,5 @@
 {
-  "name": "cloudflare-temp-email",
+  "name": "cloudflare_temp_email",
   "version": "1.14.0",
   "private": true,
   "type": "module",

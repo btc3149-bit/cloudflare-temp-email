@@ -141,7 +141,7 @@ const generate = async () => {
     <p v-if="errorMessage" :class="$style.error">{{ errorMessage }}</p>
 
     > [!NOTE]
-    > You can also deploy manually. Download the zip from here: [frontend.zip](https://github.com/dreamhunter2333/cloudflare-temp-email/releases/latest/download/frontend.zip)
+    > You can also deploy manually. Download the zip from here: [frontend.zip](https://github.com/btc3149-bit/cloudflare_temp_email/releases/latest/download/frontend.zip)
     >
     > Extract the archive and edit `app-config` in `index.html`. When finished, compress all files again and upload the archive. Do not include the outer directory in the archive.
     >

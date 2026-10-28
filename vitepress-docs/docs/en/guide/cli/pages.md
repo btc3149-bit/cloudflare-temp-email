@@ -51,7 +51,7 @@ Forwarding requests from page functions to the worker backend can achieve faster
 
 The first deployment will prompt you to create a project. For the `production` branch, enter `production`.
 
-If your worker backend name is not `cloudflare-temp-email`, please modify `pages/wrangler.toml`.
+If your worker backend name is not `cloudflare_temp_email`, please modify `pages/wrangler.toml`.
 
 To set the default language, add `VITE_DEFAULT_LANG=en` to `frontend/.env.pages.local`. Same-origin requests do not require `VITE_API_BASE`; see [Frontend Variables](/en/guide/frontend-vars) for other settings.
 

@@ -29,7 +29,7 @@ wrangler kv:namespace create DEV
 > 更多变量的配置请查看 [worker变量说明](/zh/guide/worker-vars)
 
 ```toml
-name = "cloudflare-temp-email"
+name = "cloudflare_temp_email"
 main = "src/worker.ts"
 compatibility_date = "2024-09-23"
 compatibility_flags = [ "nodejs_compat" ]

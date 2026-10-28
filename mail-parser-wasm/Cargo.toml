@@ -4,7 +4,7 @@ version = "0.2.3"
 edition = "2021"
 description = "A simple mail parser for wasm"
 license = "MIT"
-repository = "https://github.com/dreamhunter2333/cloudflare-temp-email"
+repository = "https://github.com/btc3149-bit/cloudflare_temp_email"
 
 [lib]
 crate-type = ["cdylib"]

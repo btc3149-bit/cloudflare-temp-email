@@ -38,16 +38,16 @@ Release notes body 使用以下格式，内容从 CHANGELOG.md 的对应版本�
 
 </details>
 
-### [更新或者部署网页不生效请如图勾选清理缓存](https://github.com/dreamhunter2333/cloudflare-temp-email/discussions/487)
+### [更新或者部署网页不生效请如图勾选清理缓存](https://github.com/btc3149-bit/cloudflare_temp_email/discussions/487)
 
 <details>
 <summary>PRs</summary>
 
-* PR title by @author in https://github.com/dreamhunter2333/cloudflare-temp-email/pull/NUMBER
+* PR title by @author in https://github.com/btc3149-bit/cloudflare_temp_email/pull/NUMBER
 
 </details>
 
-**Full Changelog**: https://github.com/dreamhunter2333/cloudflare-temp-email/compare/vOLD...vNEW
+**Full Changelog**: https://github.com/btc3149-bit/cloudflare_temp_email/compare/vOLD...vNEW
 ```
 
 ## Notes

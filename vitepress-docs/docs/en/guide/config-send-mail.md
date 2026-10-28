@@ -52,7 +52,7 @@ Register at `https://resend.com/domains` and add DNS records according to the in
 > Resend domain verification CNAME records **must be set to DNS-only** (gray cloud) in
 > the Cloudflare DNS dashboard. Proxied (orange cloud) records will prevent Resend from
 > completing verification, and a single failed attempt can take several hours before
-> Retry becomes available. See [#515](https://github.com/dreamhunter2333/cloudflare-temp-email/issues/515).
+> Retry becomes available. See [#515](https://github.com/btc3149-bit/cloudflare_temp_email/issues/515).
 
 Create an `api key` on the `API KEYS` page.
 

@@ -5,7 +5,7 @@ description: Upgrade the project version number. Use when the user asks to bump 
 
 # Version Upgrade
 
-Upgrade the version number of the cloudflare-temp-email project.
+Upgrade the version number of the cloudflare_temp_email project.
 
 ## Files to modify
 

@@ -8,7 +8,7 @@ Mail channel is no longer supported. The reference below is limited to the recei
 
 Reference
 
-- [Configure Subdomain Email](https://github.com/dreamhunter2333/cloudflare-temp-email/issues/164#issuecomment-2082612710)
+- [Configure Subdomain Email](https://github.com/btc3149-bit/cloudflare_temp_email/issues/164#issuecomment-2082612710)
 
 ## Create Random Second-level Subdomain Addresses
 
@@ -79,7 +79,7 @@ enter only `team`; the frontend combines it as `team.abc.com`.
 > random subdomain feature will appear to work in the UI but inbound mail will never reach the
 > Worker.
 >
-> Reference issue: [#1035](https://github.com/dreamhunter2333/cloudflare-temp-email/issues/1035)
+> Reference issue: [#1035](https://github.com/btc3149-bit/cloudflare_temp_email/issues/1035)
 
 ## Let APIs Specify Other Subdomains Directly
 

@@ -190,19 +190,19 @@ Pick any install method:
 
 ```bash
 # Option 1: npx skills (recommended, auto-detects multiple agents)
-npx skills add dreamhunter2333/cloudflare-temp-email --skill cf-temp-mail-agent-mail
+npx skills add btc3149-bit/cloudflare_temp_email --skill cf-temp-mail-agent-mail
 # Add -g to install globally
-npx skills add dreamhunter2333/cloudflare-temp-email --skill cf-temp-mail-agent-mail -g
+npx skills add btc3149-bit/cloudflare_temp_email --skill cf-temp-mail-agent-mail -g
 
 # Option 2: npx degit to copy into your agent's skills folder
-npx degit dreamhunter2333/cloudflare-temp-email/skills/cf-temp-mail-agent-mail <your-agent-skills-dir>/cf-temp-mail-agent-mail
+npx degit btc3149-bit/cloudflare_temp_email/skills/cf-temp-mail-agent-mail <your-agent-skills-dir>/cf-temp-mail-agent-mail
 
 # Option 3: clone and copy
-git clone --depth 1 https://github.com/dreamhunter2333/cloudflare-temp-email.git /tmp/cf-temp-mail
+git clone --depth 1 https://github.com/btc3149-bit/cloudflare_temp_email.git /tmp/cf-temp-mail
 cp -r /tmp/cf-temp-mail/skills/cf-temp-mail-agent-mail <your-agent-skills-dir>/
 ```
 
-See [SKILL.md](https://github.com/dreamhunter2333/cloudflare-temp-email/blob/main/skills/cf-temp-mail-agent-mail/SKILL.md) for details.
+See [SKILL.md](https://github.com/btc3149-bit/cloudflare_temp_email/blob/main/skills/cf-temp-mail-agent-mail/SKILL.md) for details.
 
 ## Common errors
 

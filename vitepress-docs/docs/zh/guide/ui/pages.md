@@ -141,7 +141,7 @@ const generate = async () => {
     <p v-if="errorMessage" :class="$style.error">{{ errorMessage }}</p>
 
     > [!NOTE]
-    > 你也可以手动部署，从这里下载 zip, [frontend.zip](https://github.com/dreamhunter2333/cloudflare-temp-email/releases/latest/download/frontend.zip)
+    > 你也可以手动部署，从这里下载 zip, [frontend.zip](https://github.com/btc3149-bit/cloudflare_temp_email/releases/latest/download/frontend.zip)
     >
     > 解压后编辑 `index.html` 中的 `app-config`，完成后重新压缩全部文件并上传。不要把外层目录一起压缩。
     >
