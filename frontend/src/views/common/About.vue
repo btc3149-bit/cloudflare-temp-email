@@ -23,7 +23,7 @@ const safeAnnouncement = computed(() => sanitizeHtml(announcement.value))
                 </template>
                 Discord
             </n-button>
-            <n-button tag="a" target="_blank" href="#">
+            <n-button tag="a" target="_blank" href="https://t.me/+kUCdWP_WLWZjMzQx">
                 <template #icon>
                     <n-icon :component="Telegram" />
                 </template>

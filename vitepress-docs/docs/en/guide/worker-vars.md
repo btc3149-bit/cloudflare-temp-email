@@ -10,6 +10,7 @@
 | `DOMAINS`                  | JSON        | All domains for temporary email, supports multiple domains             | `["awsl.uk", "btc3149-bit.xyz"]` |
 | `JWT_SECRET`               | Text/Secret | Secret key for signing JWTs used in login and authentication. Use a random string, e.g. generated via `openssl rand -hex 32` | `a1b2c3d4...`                        |
 | `ADMIN_PASSWORDS`          | JSON        | Admin console passwords, console access disabled if not configured     | `["123", "456"]`                     |
+| `DISABLE_USER_SYSTEM` | Text/JSON | Block user system APIs and hide user interfaces; disabled by default | `true` |
 | `ENABLE_USER_CREATE_EMAIL` | Text/JSON   | Whether to allow users to create mailboxes, disabled if not configured | `true`                               |
 | `ENABLE_USER_DELETE_EMAIL` | Text/JSON   | Whether to allow users to delete emails, disabled if not configured    | `true`                               |
 | `ENABLE_MAIL_READ_STATUS` | Text/JSON | Enables read/unread mail state. Upgrade the database schema before enabling | `true` |
@@ -165,7 +166,7 @@ When `ADMIN_API_IP_WHITELIST` is unset or empty, source IPs are not restricted. 
 | `TITLE`                    | Text        | Custom frontend page website title, supports html                        | `Custom Title`        |
 | `ANNOUNCEMENT`             | Text        | Custom frontend page announcement, supports html                         | `Custom Announcement` |
 | `ALWAYS_SHOW_ANNOUNCEMENT` | Text/JSON   | Whether to always show announcement (even if unchanged), default `false` | `true`                |
-| `COPYRIGHT`                | Text        | Custom frontend footer text, supports html                               | `btc3149-bit`        |
+| `COPYRIGHT`                | Text        | Custom frontend footer text, supports html                               | `319解说`        |
 | `ADMIN_CONTACT`            | Text        | Admin contact information, can be any string, hidden if not configured   | `xxx@gmail.com`       |
 | `DISABLE_SHOW_GITHUB`      | Text/JSON   | Globally hide the GitHub link                                            | `true`                |
 | `DISABLE_SHOW_GITHUB_FOR_USER` | Text/JSON | Hide the GitHub link for normal users while keeping it visible to admin users | `true`                |

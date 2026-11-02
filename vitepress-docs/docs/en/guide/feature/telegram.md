@@ -1,6 +1,6 @@
 # Configure Telegram Bot
 
-Try it here: [@cf_temp_mail_bot](#)
+Try it here: [@cf_temp_mail_bot](https://t.me/+kUCdWP_WLWZjMzQx)
 
 ::: warning Note
 The default `worker.dev` domain certificate for worker is not supported by Telegram. Please use a custom domain when configuring Telegram Bot.

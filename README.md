@@ -200,7 +200,7 @@ nslookup -qt="mx" a.b.com 1.1.1.1
 
 ## 加入社区
 
-- [Telegram](#)
+- [Telegram](https://t.me/+kUCdWP_WLWZjMzQx)
 
 
 <!-- hub-contact -->
@@ -208,6 +208,9 @@ nslookup -qt="mx" a.b.com 1.1.1.1
 
 - 个人微信
 
-![客服微信](docs/contact/qrmvp37fpo8324.png)
+[![QQ群](docs/contact/qrmvvo645u9026.jpg)](点击链接加入群聊【319解说】：https://qm.qq.com/q/TFjMYPbsSA)
 
-![个人微信](docs/contact/qrmvp37l9l4474.png)
+![作者微信](docs/contact/qrmvp37l9l4474.png)
+
+- **联系邮箱**：[btc.520@163.com](btc.520@163.com)
+- **Telegram 群**：[https://t.me/+kUCdWP_WLWZjMzQx](https://t.me/+kUCdWP_WLWZjMzQx)

@@ -199,4 +199,4 @@ nslookup -qt="mx" a.b.com 1.1.1.1
 
 ## Join the Community
 
-- [Telegram](#)
+- [Telegram](https://t.me/+kUCdWP_WLWZjMzQx)

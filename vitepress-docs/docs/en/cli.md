@@ -121,7 +121,7 @@ ENABLE_AUTO_REPLY = false
 # Allow webhook
 # ENABLE_WEBHOOK = true
 # Footer text
-# COPYRIGHT = "btc3149-bit"
+# COPYRIGHT = "319解说"
 # DISABLE_SHOW_GITHUB = true # Disable Show GitHub link
 # DISABLE_SHOW_GITHUB_FOR_USER = true # Hide GitHub link for normal users only
 # default send balance, if not set, it will be 0

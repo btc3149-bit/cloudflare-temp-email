@@ -24,7 +24,7 @@ export const zh = defineConfig({
 
         footer: {
             message: '基于 MIT 许可发布',
-            copyright: `版权所有 © 2023-${new Date().getFullYear()} btc3149-bit`
+            copyright: `版权所有 © 2023-${new Date().getFullYear()} 319解说`
         },
 
         docFooter: {

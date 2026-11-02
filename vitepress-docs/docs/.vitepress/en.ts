@@ -24,7 +24,7 @@ export const en = defineConfig({
 
         footer: {
             message: 'Based on MIT license',
-            copyright: `Copyright © 2023-${new Date().getFullYear()} btc3149-bit`
+            copyright: `Copyright © 2023-${new Date().getFullYear()} 319解说`
         },
 
         docFooter: {
