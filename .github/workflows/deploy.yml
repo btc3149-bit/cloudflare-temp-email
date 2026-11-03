@@ -21,17 +21,54 @@ jobs:
       - name: Install
         if: ${{ env.INSTALL != 'skip' }}
         run: |
+          # ★★ 2026-11-02：先无条件把 pnpm/yarn 装上，再决定装依赖 ★★
+          #
+          #   缺陷（cloud-mail 实测）：原来整个 Install 步骤包在
+          #   原来的 if [ -f package.json ] 判断 —— 而 monorepo 的根目录**没有** package.json
+          #   （依赖在 mail-worker/ 与 mail-vue/）→ corepack enable 从未执行 →
+          #   后面 wrangler 的 [build] command（pnpm --prefix ../mail-vue ...）报
+          #     /bin/sh: 1: pnpm: not found   (exit 127)
+          #   客户看到的是「构建失败」，但真实原因只是「runner 上没有 pnpm」。
+          #
+          #   ★ 为什么无条件装：wrangler 的 [build] command 可能用任何包管理器，
+          #     而 Install 步骤看不到那个 command 的内容。宁可多装一个 corepack（几秒），
+          #     也不要让「包管理器缺失」伪装成「构建失败」。
+          #
+          #   ★ 版本选择：优先读根目录 package.json 的 packageManager 字段；
+          #     没有就用 pnpm@9（wrangler v4 与大多数仓库兼容的稳定版）。
+          corepack enable 2>/dev/null || true
+          ROOT_PM=""
+          [ -f package.json ] && ROOT_PM=$(jq -r '.packageManager // ""' package.json)
+          if [[ "$ROOT_PM" == pnpm@* ]]; then
+            corepack prepare "$ROOT_PM" --activate || true
+          else
+            # 找任意一级子目录的 pnpm-lock.yaml，用它的 pnpm 主版本
+            SUBPM=""
+            for lk in */pnpm-lock.yaml pnpm-lock.yaml; do
+              [ -f "$lk" ] || continue
+              v=$(grep -m1 '^lockfileVersion:' "$lk" | sed 's/.*: *//')
+              # lockfileVersion 9.x → pnpm 9/10；6.x → pnpm 8
+              case "$v" in 9*) SUBPM="pnpm@9" ;; 6*) SUBPM="pnpm@8" ;; *) SUBPM="" ;; esac
+              [ -n "$SUBPM" ] && break
+            done
+            [ -n "$SUBPM" ] && corepack prepare "$SUBPM" --activate || true
+          fi
+          echo "pnpm: $(pnpm -v 2>/dev/null || echo '(未安装)')"
+          echo "yarn: $(yarn -v 2>/dev/null || echo '(未安装)')"
+          echo "npm:  $(npm -v 2>/dev/null || echo '(无)')"
+
+          # 装依赖：只装「有 package.json 的那一层」
           if [ -f package.json ]; then
-            PM=$(jq -r '.packageManager // ""' package.json)
+            PM="$ROOT_PM"
             if [ -f pnpm-lock.yaml ] || [[ "$PM" == pnpm@* ]]; then
-              corepack enable && [ -n "$PM" ] && corepack prepare "$PM" --activate || true
               pnpm install --frozen-lockfile || pnpm install
             elif [ -f yarn.lock ] || [[ "$PM" == yarn@* ]]; then
-              corepack enable && [ -n "$PM" ] && corepack prepare "$PM" --activate || true
               yarn install --frozen-lockfile || yarn install
             else
               npm ci || npm install
             fi
+          else
+            echo "根目录无 package.json（monorepo），依赖由各子项目自己的步骤安装"
           fi
         env: { INSTALL: 'auto' }
       - name: Build
@@ -60,7 +97,42 @@ jobs:
           fi
           CF=$(jq -r .api_token config.json)
           TARGET_ACCOUNT=$(jq -r .target_account_id config.json)
-          (cd "$WDIR" && CLOUDFLARE_API_TOKEN=$CF CLOUDFLARE_ACCOUNT_ID="$TARGET_ACCOUNT" npx wrangler deploy 2>&1) | tee -a /tmp/deploy.log
+          # ★ 2026-11-02：wrangler 无输出直接 exit 1 时，先把现场打出来 ——
+          #   之前 (cd "$DIR" && ...) | tee 把 npx 的错误吞了，客户只看到「部署失败」四个字。
+          echo "--- wrangler 现场 (backend) ---"
+          echo "pwd=$(pwd) WDIR=$WDIR"; ls -la "$WDIR" 2>&1 | head -20
+          echo "wrangler.toml: $([ -f "$WDIR/wrangler.toml" ] && echo yes || echo no)"
+          echo "npx: $(command -v npx || echo MISSING) | node: $(node -v 2>&1)"
+          echo "---------------------"
+
+          # ★★ 2026-11-02：用 wrangler 的 --var 注入 Hub 托管的 worker vars ★★
+          #
+          #   缺陷（cloud-mail 实测）：上游 [vars] 是**配置模板**，关键项被注释掉：
+          #       #admin = ""  /  #jwt_secret = ""  /  #domain = []
+          #   期望用户自己取消注释填值。Hub 直接部署 → 变量全空 →
+          #   站点能打开但报「数据库未初始化」→ 客户拿到坏站点而 Hub 显示成功。
+          #
+          #   ★ 为什么用 --var 而不是改 wrangler.toml：
+          #     ① 改仓库文件会被**上游同步覆盖**（实测：改完一次 sync 就变回注释模板）
+          #     ② 在 CI 里 sed 合并 TOML 的转义极易出错（本文件已踩过 5 次）
+          #     --var 是 wrangler 原生能力，只影响本次部署，仓库保持干净。
+          #
+          #   ★ 合并而不是覆盖：--var 只补/改列出的键，配置里其它 vars 原样保留。
+          VAR_ARGS=""
+          VAR_COUNT=$(jq -r '.worker_vars // {} | length' config.json 2>/dev/null || echo 0)
+          if [ "$VAR_COUNT" != "0" ] && [ -n "$VAR_COUNT" ]; then
+            echo "--- 注入 $VAR_COUNT 个 worker vars ---"
+            VAR_LINES=$(jq -r '.worker_vars // {} | to_entries[] | "\(.key):\(.value | if type == "string" then . else tojson end)"' config.json)
+            while IFS= read -r kv; do
+              [ -z "$kv" ] && continue
+              echo "  $(echo "$kv" | cut -d: -f1)"
+              VAR_ARGS="$VAR_ARGS --var $kv"
+            done <<< "$VAR_LINES"
+          fi
+
+          (cd "$WDIR" && CLOUDFLARE_API_TOKEN=$CF CLOUDFLARE_ACCOUNT_ID="$TARGET_ACCOUNT" npx wrangler deploy $VAR_ARGS 2>&1) | tee -a /tmp/deploy.log
+          RC=$?
+          if [ "$RC" != "0" ]; then echo "❌ backend wrangler exit=$RC"; exit "$RC"; fi
       # ★ Secret 注入必须是**独立步骤**，不能塞在 Deploy Backend Worker 里。
       #   原因（2026-10-29 客户 livechat 撞出）：worker 目标的 worker_deploy.dir 为空，
       #   Deploy Backend Worker 第 2 行就 exit 0，里面的 secret 注入整段被跳过 ——
@@ -79,7 +151,55 @@ jobs:
             DIR=$(jq -r '.deploy_dir // ""' config.json)
             [ -n "$DIR" ] && [ -d "$DIR" ] || DIR="."
             echo "wrangler deploy in $DIR"
+            # ★★ assets 目录自动纠正（2026-11-02，maillab/cloud-mail 撞出）★★
+            #
+            #   缺陷形状：上游 wrangler 配置写 `[assets] directory = "./dist"`（相对配置目录），
+            #   但它的 `[build] command` 是 `pnpm --prefix ../mail-vue run build` ——
+            #   产物落在 **mail-vue/dist**，不是 mail-worker/dist。
+            #   上游靠 CI 里设 VITE_OUT_DIR 或改 config 解决；Hub 直接 wrangler deploy
+            #   就会报 `The directory "./dist" specified in [assets] does not exist`。
+            #
+            #   判据：声明的 assets 目录**不存在**，但仓库里能找到**唯一一个** dist/build 目录
+            #   → 认定「产物与 config 分居两处」，把 config 的 directory 改指向它。
+            #   ★ 只在「唯一」时改：多个候选时无法判断哪个对，宁可让 wrangler 原样报错 ——
+            #     自动猜错会部署出一个空站点，比报错更难查。
+            ( cd "$DIR"
+              CFG=$(ls wrangler.toml 2>/dev/null | head -1)
+              if [ -n "$CFG" ] && grep -q '^[assets]' "$CFG"; then
+                ADIR=$(awk '/^\[assets\]/{f=1;next} /^\[/{f=0} f && /^[[:space:]]*directory[[:space:]]*=/{sub(/.*=[[:space:]]*"/,""); sub(/".*/,""); print; exit}' "$CFG")
+                if [ -n "$ADIR" ] && [ ! -d "$ADIR" ]; then
+                  # ★ 不用 find 的分组括号：TS 模板字符串会把反斜杠加左括号吃掉，
+                  #   导致 shell 报 syntax error near unexpected token。2026-11-02 实测。
+                  #   也不用花括号分组（美元符加左花括号会被当成模板插值）。
+                  #   正解：两次独立 find（各自带完整过滤条件），再用 echo 拼接。
+                  CANDS=$(find .. -maxdepth 3 -type d -name dist -not -path "*/node_modules/*" -not -path "*/.git/*" 2>/dev/null)
+                  CANDS2=$(find .. -maxdepth 3 -type d -name build -not -path "*/node_modules/*" -not -path "*/.git/*" 2>/dev/null)
+                  CANDS=$(echo "$CANDS"; echo "$CANDS2" | grep -v "^$" | head -5)
+                  N=$(printf "%s" "$CANDS" | grep -c . || true)
+                  if [ "$N" = "1" ]; then
+                    REL=$(realpath -m --relative-to=. "$CANDS" 2>/dev/null || echo "$CANDS")
+                    echo "⚠ assets 目录 $ADIR 不存在，改指向 $REL（仓库里唯一的构建产物目录）"
+                    sed -i "/^\[assets\]/,/^\[/ s|^[[:space:]]*directory[[:space:]]*=.*|directory = \"$REL\"|" "$CFG"
+                    sed -n '/^\[assets\]/,/^\[/p' "$CFG"
+                  elif [ "$N" = "0" ]; then
+                    echo "⚠ assets 目录 $ADIR 不存在，仓库里也没有 dist/build 目录 → 构建可能没跑成功"
+                  else
+                    echo "⚠ assets 目录 $ADIR 不存在，有 $N 个候选，无法确定用哪个（保持原配置让 wrangler 报错）："
+                    printf '%s\n' "$CANDS" | sed 's/^/     /'
+                  fi
+                fi
+              fi
+            )
+            echo "--- wrangler 现场 (main) ---"
+            echo "pwd=$(pwd) DIR=$DIR"; ls -la "$DIR" 2>&1 | head -25
+            echo "wrangler.toml: $([ -f "$DIR/wrangler.toml" ] && echo yes || echo no)"
+            echo "npx: $(command -v npx || echo MISSING) | node: $(node -v 2>&1)"
+            echo "--- 当前 [assets] 段 ---"; grep -A6 -E "^[[]assets[]]" "$DIR/wrangler.toml" 2>&1 | head -10
+            echo "--- dist 目录 ---"; ls -la "$DIR"/dist 2>&1 | head -5 || true; echo "--- ../mail-vue/dist（可选）---"; ls -la ../mail-vue/dist 2>&1 | head -5 || true
+            echo "---------------------"
             (cd "$DIR" && CLOUDFLARE_API_TOKEN=$CF CLOUDFLARE_ACCOUNT_ID="$TARGET_ACCOUNT" npx wrangler deploy 2>&1) | tee -a /tmp/deploy.log
+            RC=$?
+            if [ "$RC" != "0" ]; then echo "❌ main wrangler exit=$RC"; exit "$RC"; fi
           else
             OUT=$(jq -r '.output_dir // "dist"' config.json)
             [ -n "$OUT" ] || OUT=dist
