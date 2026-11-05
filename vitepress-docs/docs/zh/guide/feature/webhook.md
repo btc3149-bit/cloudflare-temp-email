@@ -9,10 +9,10 @@
 
 你需要自建一个 `webhook 服务` 或者 使用 `第三方平台`，这个服务需要能够接收 `POST` 请求，并且能够解析 `json` 数据。
 
-本项目使用了 [songquanpeng/message-pusher](https://github.com/songquanpeng/message-pusher) 示例作为 webhook 服务。
+本项目使用了 [songquanpeng/message-pusher](https://github.com/btc3149-bit/cloudflare-temp-email) 示例作为 webhook 服务。
 
 - 可以使用 [msgpusher.com](https://msgpusher.com) 提供的服务
-- 也可以自建 `message-pusher` 服务，参考 [songquanpeng/message-pusher](https://github.com/songquanpeng/message-pusher)
+- 也可以自建 `message-pusher` 服务，参考 [songquanpeng/message-pusher](https://github.com/btc3149-bit/cloudflare-temp-email)
 
 ## admin 配置全局 webhook
 

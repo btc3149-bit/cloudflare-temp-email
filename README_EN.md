@@ -2,23 +2,23 @@
 # Cloudflare Temp Email - Free Temporary Email Service
 
 <p align="center">
-  <a href="https://temp-mail-docs.awsl.uk" target="_blank">
+  <a href="#" target="_blank">
     <img alt="docs" src="https://img.shields.io/badge/docs-grey?logo=vitepress">
   </a>
-  <a href="https://github.com/btc3149-bit/cloudflare_temp_email/releases/latest" target="_blank">
-    <img src="https://img.shields.io/github/v/release/btc3149-bit/cloudflare_temp_email">
+  <a href="https://github.com/btc3149-bit/cloudflare-temp-email/releases/latest" target="_blank">
+    <img src="https://img.shields.io/github/v/release/btc3149-bit/cloudflare-temp-email">
   </a>
-  <a href="https://github.com/btc3149-bit/cloudflare_temp_email/blob/main/LICENSE" target="_blank">
-    <img alt="MIT License" src="https://img.shields.io/github/license/btc3149-bit/cloudflare_temp_email">
+  <a href="https://github.com/btc3149-bit/cloudflare-temp-email/blob/main/LICENSE" target="_blank">
+    <img alt="MIT License" src="https://img.shields.io/github/license/btc3149-bit/cloudflare-temp-email">
   </a>
-  <a href="https://github.com/btc3149-bit/cloudflare_temp_email/graphs/contributors" target="_blank">
-   <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btc3149-bit/cloudflare_temp_email">
-  </a>
-  <a href="">
-    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/btc3149-bit/cloudflare_temp_email">
+  <a href="https://github.com/btc3149-bit/cloudflare-temp-email/graphs/contributors" target="_blank">
+   <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btc3149-bit/cloudflare-temp-email">
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/last-commit/btc3149-bit/cloudflare_temp_email">
+    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/btc3149-bit/cloudflare-temp-email">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/btc3149-bit/cloudflare-temp-email">
   </a>
 </p>
 
@@ -43,13 +43,13 @@
 - **Modern UI** - Responsive design with multi-language support and easy operation
 - **Address Password** - Support setting individual passwords for email addresses to enhance security
 - **Agent-friendly** - Built-in mailbox [`skill`](skills/cf-temp-mail-agent-mail/SKILL.md) for AI agents
-- **Mobile admin** - Community client [CloudMail](https://github.com/Lur1N77777/CloudMail) for Android admin and mailbox management
+- **Mobile admin** - Community client [CloudMail](https://github.com/btc3149-bit/cloudflare-temp-email) for Android admin and mailbox management
 
 ## Deployment Documentation - Quick Start
 
-[Documentation](https://temp-mail-docs.awsl.uk) | [Github Action Deployment Guide](https://temp-mail-docs.awsl.uk/en/guide/actions/github-action.html)
+[Documentation](#) | [Github Action Deployment Guide](#)
 
-<a href="https://temp-mail-docs.awsl.uk/en/guide/actions/github-action.html">
+<a href="#">
   <img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare Workers" height="32">
 </a>
 
@@ -59,15 +59,15 @@ See [CHANGELOG](CHANGELOG.md) for the latest updates.
 
 ## Live Demo
 
-Try it now → [https://mail.awsl.uk/](https://mail.awsl.uk/)
+Try it now → [#](#)
 
 <details>
 <summary>Service Status Monitoring (Click to expand/collapse)</summary>
 
 |                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Backend](https://temp-email-api.awsl.uk/) | [![Deploy Backend Production](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/backend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/backend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/10/status) ![](https://uptime.aks.awsl.icu/api/badge/10/uptime) ![](https://uptime.aks.awsl.icu/api/badge/10/ping) ![](https://uptime.aks.awsl.icu/api/badge/10/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/10/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/10/response) |
-| [Frontend](https://mail.awsl.uk/)          | [![Deploy Frontend](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/frontend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/frontend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/12/status) ![](https://uptime.aks.awsl.icu/api/badge/12/uptime) ![](https://uptime.aks.awsl.icu/api/badge/12/ping) ![](https://uptime.aks.awsl.icu/api/badge/12/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/12/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/12/response)         |
+| [Backend](#) | [![Deploy Backend Production](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/10/status) ![](https://uptime.aks.awsl.icu/api/badge/10/uptime) ![](https://uptime.aks.awsl.icu/api/badge/10/ping) ![](https://uptime.aks.awsl.icu/api/badge/10/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/10/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/10/response) |
+| [Frontend](#)          | [![Deploy Frontend](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/12/status) ![](https://uptime.aks.awsl.icu/api/badge/12/uptime) ![](https://uptime.aks.awsl.icu/api/badge/12/ping) ![](https://uptime.aks.awsl.icu/api/badge/12/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/12/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/12/response)         |
 
 </details>
 
@@ -75,9 +75,9 @@ Try it now → [https://mail.awsl.uk/](https://mail.awsl.uk/)
 <summary>Star History (Click to expand/collapse)</summary>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare_temp_email&type=Date&theme=dark" />
-  <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare_temp_email&type=Date" />
-  <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare_temp_email&type=Date" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare-temp-email&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare-temp-email&type=Date" />
+  <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare-temp-email&type=Date" />
 </picture>
 
 </details>
@@ -154,7 +154,7 @@ Try it now → [https://mail.awsl.uk/](https://mail.awsl.uk/)
 - [x] Support `CF Turnstile` CAPTCHA verification
 - [x] Rate limiting configuration to prevent abuse
 - [x] **Agent-friendly**: bundled [`cf-temp-mail-agent-mail`](skills/cf-temp-mail-agent-mail/SKILL.md) skill lets AI agents consume a mailbox directly, see [docs](vitepress-docs/docs/en/guide/feature/agent-email.md)
-- [x] Community mobile admin client: [CloudMail](https://github.com/Lur1N77777/CloudMail) is built with Expo / React Native for this project's compatible API, providing an Android admin console, address management, inbox/sent/unknown mail, quick verification-code copy, OLED black theme, and local grouping.
+- [x] Community mobile admin client: [CloudMail](https://github.com/btc3149-bit/cloudflare-temp-email) is built with Expo / React Native for this project's compatible API, providing an Android admin console, address management, inbox/sent/unknown mail, quick verification-code copy, OLED black theme, and local grouping.
 
 </details>
 
@@ -199,4 +199,4 @@ nslookup -qt="mx" a.b.com 1.1.1.1
 
 ## Join the Community
 
-- [Telegram](https://t.me/+kUCdWP_WLWZjMzQx)
+- [Telegram](#)

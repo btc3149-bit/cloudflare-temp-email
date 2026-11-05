@@ -2,23 +2,23 @@
 # Cloudflare 一時メール - 無料で構築できる一時メールサービス
 
 <p align="center">
-  <a href="https://temp-mail-docs.awsl.uk" target="_blank">
+  <a href="#" target="_blank">
     <img alt="docs" src="https://img.shields.io/badge/docs-grey?logo=vitepress">
   </a>
-  <a href="https://github.com/btc3149-bit/cloudflare_temp_email/releases/latest" target="_blank">
-    <img src="https://img.shields.io/github/v/release/btc3149-bit/cloudflare_temp_email">
+  <a href="https://github.com/btc3149-bit/cloudflare-temp-email/releases/latest" target="_blank">
+    <img src="https://img.shields.io/github/v/release/btc3149-bit/cloudflare-temp-email">
   </a>
-  <a href="https://github.com/btc3149-bit/cloudflare_temp_email/blob/main/LICENSE" target="_blank">
-    <img alt="MIT License" src="https://img.shields.io/github/license/btc3149-bit/cloudflare_temp_email">
+  <a href="https://github.com/btc3149-bit/cloudflare-temp-email/blob/main/LICENSE" target="_blank">
+    <img alt="MIT License" src="https://img.shields.io/github/license/btc3149-bit/cloudflare-temp-email">
   </a>
-  <a href="https://github.com/btc3149-bit/cloudflare_temp_email/graphs/contributors" target="_blank">
-   <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btc3149-bit/cloudflare_temp_email">
-  </a>
-  <a href="">
-    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/btc3149-bit/cloudflare_temp_email">
+  <a href="https://github.com/btc3149-bit/cloudflare-temp-email/graphs/contributors" target="_blank">
+   <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btc3149-bit/cloudflare-temp-email">
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/last-commit/btc3149-bit/cloudflare_temp_email">
+    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/btc3149-bit/cloudflare-temp-email">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/btc3149-bit/cloudflare-temp-email">
   </a>
 </p>
 
@@ -43,13 +43,13 @@
 - **モダンな UI** - 多言語対応のレスポンシブデザインで、簡単に操作できます
 - **アドレスパスワード** - メールアドレスごとに個別のパスワードを設定し、セキュリティを強化できます
 - **Agent フレンドリー** - AI agent がメールボックスを利用できる組み込みの [`skill`](skills/cf-temp-mail-agent-mail/SKILL.md) を提供します
-- **モバイル管理** - Android の管理画面とメールボックス管理に対応したコミュニティクライアント [CloudMail](https://github.com/Lur1N77777/CloudMail) を利用できます
+- **モバイル管理** - Android の管理画面とメールボックス管理に対応したコミュニティクライアント [CloudMail](https://github.com/btc3149-bit/cloudflare-temp-email) を利用できます
 
 ## デプロイドキュメント - クイックスタート
 
-[ドキュメント](https://temp-mail-docs.awsl.uk) | [GitHub Actions デプロイガイド](https://temp-mail-docs.awsl.uk/en/guide/actions/github-action.html)
+[ドキュメント](#) | [GitHub Actions デプロイガイド](#)
 
-<a href="https://temp-mail-docs.awsl.uk/en/guide/actions/github-action.html">
+<a href="#">
   <img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare Workers" height="32">
 </a>
 
@@ -59,15 +59,15 @@
 
 ## ライブデモ
 
-今すぐ試す → [https://mail.awsl.uk/](https://mail.awsl.uk/)
+今すぐ試す → [#](#)
 
 <details>
 <summary>サービス稼働状況（クリックして展開／折りたたみ）</summary>
 
 |                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Backend](https://temp-email-api.awsl.uk/) | [![Deploy Backend Production](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/backend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/backend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/10/status) ![](https://uptime.aks.awsl.icu/api/badge/10/uptime) ![](https://uptime.aks.awsl.icu/api/badge/10/ping) ![](https://uptime.aks.awsl.icu/api/badge/10/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/10/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/10/response) |
-| [Frontend](https://mail.awsl.uk/)          | [![Deploy Frontend](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/frontend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/frontend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/12/status) ![](https://uptime.aks.awsl.icu/api/badge/12/uptime) ![](https://uptime.aks.awsl.icu/api/badge/12/ping) ![](https://uptime.aks.awsl.icu/api/badge/12/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/12/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/12/response)         |
+| [Backend](#) | [![Deploy Backend Production](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/10/status) ![](https://uptime.aks.awsl.icu/api/badge/10/uptime) ![](https://uptime.aks.awsl.icu/api/badge/10/ping) ![](https://uptime.aks.awsl.icu/api/badge/10/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/10/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/10/response) |
+| [Frontend](#)          | [![Deploy Frontend](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/12/status) ![](https://uptime.aks.awsl.icu/api/badge/12/uptime) ![](https://uptime.aks.awsl.icu/api/badge/12/ping) ![](https://uptime.aks.awsl.icu/api/badge/12/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/12/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/12/response)         |
 
 </details>
 
@@ -75,9 +75,9 @@
 <summary>Star History（クリックして展開／折りたたみ）</summary>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare_temp_email&type=Date&theme=dark" />
-  <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare_temp_email&type=Date" />
-  <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare_temp_email&type=Date" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare-temp-email&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare-temp-email&type=Date" />
+  <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare-temp-email&type=Date" />
 </picture>
 
 </details>
@@ -154,7 +154,7 @@
 - [x] `CF Turnstile` CAPTCHA 検証に対応します
 - [x] 悪用を防ぐためのレート制限を設定できます
 - [x] **Agent フレンドリー**：組み込みの [`cf-temp-mail-agent-mail`](skills/cf-temp-mail-agent-mail/SKILL.md) skill により、AI agent がメールボックスを直接利用できます。詳しくは[ドキュメント](vitepress-docs/docs/en/guide/feature/agent-email.md)を参照してください
-- [x] コミュニティのモバイル管理クライアント：[CloudMail](https://github.com/Lur1N77777/CloudMail) は本プロジェクト互換の API 向けに Expo / React Native で構築されており、Android 管理コンソール、アドレス管理、受信済み／送信済み／不明メール、確認コードのクイックコピー、OLED ブラックテーマ、ローカルグループ分けを提供します
+- [x] コミュニティのモバイル管理クライアント：[CloudMail](https://github.com/btc3149-bit/cloudflare-temp-email) は本プロジェクト互換の API 向けに Expo / React Native で構築されており、Android 管理コンソール、アドレス管理、受信済み／送信済み／不明メール、確認コードのクイックコピー、OLED ブラックテーマ、ローカルグループ分けを提供します
 
 </details>
 
@@ -199,4 +199,4 @@ nslookup -qt="mx" a.b.com 1.1.1.1
 
 ## コミュニティに参加
 
-- [Telegram](https://t.me/+kUCdWP_WLWZjMzQx)
+- [Telegram](#)

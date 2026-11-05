@@ -9,10 +9,10 @@
 
 You need to set up your own `webhook service` or use a `third-party platform`. This service needs to be able to receive `POST` requests and parse `json` data.
 
-This project uses [songquanpeng/message-pusher](https://github.com/songquanpeng/message-pusher) as an example webhook service.
+This project uses [songquanpeng/message-pusher](https://github.com/btc3149-bit/cloudflare-temp-email) as an example webhook service.
 
 - You can use the service provided by [msgpusher.com](https://msgpusher.com)
-- You can also self-host the `message-pusher` service, refer to [songquanpeng/message-pusher](https://github.com/songquanpeng/message-pusher)
+- You can also self-host the `message-pusher` service, refer to [songquanpeng/message-pusher](https://github.com/btc3149-bit/cloudflare-temp-email)
 
 ## Admin Configure Global Webhook
 

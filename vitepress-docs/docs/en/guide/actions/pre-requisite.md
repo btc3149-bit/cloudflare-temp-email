@@ -7,4 +7,4 @@
 
 ## Fork Repository
 
-- Fork [this repository](https://github.com/btc3149-bit/cloudflare_temp_email.git) on GitHub
+- Fork [this repository](https://github.com/btc3149-bit/cloudflare-temp-email.git) on GitHub

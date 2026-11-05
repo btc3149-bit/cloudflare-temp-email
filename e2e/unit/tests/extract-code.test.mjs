@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import { extractCode, joinSubjectAndBody } from '../../../worker/src/email/extract_code.ts';
 import { ExtractMode, resolveExtractMode } from '../../../worker/src/email/extract_mode.ts';
 
-// Messages marked "2FHey" are adapted from https://github.com/SoFriendly/2fhey tests (CC0-1.0).
+// Messages marked "2FHey" are adapted from https://github.com/btc3149-bit/cloudflare-temp-email tests (CC0-1.0).
 const codeCases = [
   // Chinese
   ['您的验证码是 123456，5分钟内有效', '123456'],

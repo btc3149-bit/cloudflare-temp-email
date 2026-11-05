@@ -19,7 +19,7 @@
     > [!IMPORTANT]
     > Add `nodejs_compat` before deploying `worker.js`. Without this compatibility flag, common errors include `No such module "path"` and `No such module "node:stream"`, and the frontend may only show `Network Error`.
 
-4. Download [worker.js](https://github.com/btc3149-bit/cloudflare_temp_email/releases/latest/download/worker.js)
+4. Download [worker.js](https://github.com/btc3149-bit/cloudflare-temp-email/releases/latest/download/worker.js)
 
 5. Go back to `Overview`, find the worker you just created, click `Edit Code`, delete the original file, upload `worker.js`, and click `Deploy`
 
@@ -28,7 +28,7 @@
     > then right-click in the file list window and find `Upload` in the context menu,
     > please refer to the screenshots below. Do not manually create a path such as `\worker.js` in the editor. If saving fails with `No file system handle registered (\worker.js)`, go back to the Explorer file list, right-click upload the root `worker.js`, and then click `Deploy`.
     >
-    > Reference: [issues156](https://github.com/btc3149-bit/cloudflare_temp_email/issues/156#issuecomment-2079453822)
+    > Reference: [issues156](https://github.com/btc3149-bit/cloudflare-temp-email/issues/156#issuecomment-2079453822)
 
     ![worker3](/ui_install/worker-3.png)
 

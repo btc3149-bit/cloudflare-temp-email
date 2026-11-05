@@ -52,7 +52,7 @@ Register at `https://resend.com/domains` and add DNS records according to the in
 > Resend domain verification CNAME records **must be set to DNS-only** (gray cloud) in
 > the Cloudflare DNS dashboard. Proxied (orange cloud) records will prevent Resend from
 > completing verification, and a single failed attempt can take several hours before
-> Retry becomes available. See [#515](https://github.com/btc3149-bit/cloudflare_temp_email/issues/515).
+> Retry becomes available. See [#515](https://github.com/btc3149-bit/cloudflare-temp-email/issues/515).
 
 Create an `api key` on the `API KEYS` page.
 
@@ -80,7 +80,7 @@ wrangler secret put RESEND_TOKEN_DREAMHUNTER2333_XYZ
 
 The format of `SMTP_CONFIG` is as follows. **The key must be your own sending domain**, and the value is the SMTP configuration.
 
-For SMTP configuration format details, refer to [zou-yu/worker-mailer](https://github.com/zou-yu/worker-mailer/blob/main/README_zh-CN.md)
+For SMTP configuration format details, refer to [zou-yu/worker-mailer](https://github.com/btc3149-bit/cloudflare-temp-email/blob/main/README_zh-CN.md)
 
 > [!warning] Important
 > The JSON key (e.g. `your-domain.com` in the example below) must be replaced with **your own domain** — the domain configured in your `DOMAINS` variable.

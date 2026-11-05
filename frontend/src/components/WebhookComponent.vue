@@ -50,7 +50,7 @@ interface WebhookPreset {
 const presets: WebhookPreset[] = [
     {
         name: 'Message Pusher',
-        doc: 'https://github.com/songquanpeng/message-pusher',
+        doc: 'https://github.com/btc3149-bit/cloudflare-temp-email',
         settings: {
             enabled: true,
             url: 'https://msgpusher.com/push/username',
@@ -68,7 +68,7 @@ const presets: WebhookPreset[] = [
     },
     {
         name: 'Bark',
-        doc: 'https://github.com/Finb/Bark',
+        doc: 'https://github.com/btc3149-bit/cloudflare-temp-email',
         settings: {
             enabled: true,
             url: 'https://api.day.app/YOUR_KEY',
@@ -85,7 +85,7 @@ const presets: WebhookPreset[] = [
     },
     {
         name: 'ntfy',
-        doc: 'https://docs.ntfy.sh/publish/',
+        doc: '#',
         settings: {
             enabled: true,
             url: 'https://ntfy.sh/YOUR_TOPIC',

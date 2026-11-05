@@ -19,7 +19,7 @@
     > [!IMPORTANT]
     > `nodejs_compat` 必须添加成功后再部署 `worker.js`。如果缺少该兼容标记，常见错误是 `No such module "path"`、`No such module "node:stream"`，前端也可能只显示 `Network Error`。
 
-4. 下载 [worker.js](https://github.com/btc3149-bit/cloudflare_temp_email/releases/latest/download/worker.js)
+4. 下载 [worker.js](https://github.com/btc3149-bit/cloudflare-temp-email/releases/latest/download/worker.js)
 
 5. 回到 `Overview`，找到刚刚创建的 worker，点击 `Edit Code`, 删除原来的文件，上传 `worker.js`, 点击 `Deploy`
 
@@ -28,7 +28,7 @@
     > 在文件列表的窗口里点击鼠标右键，在右键菜单里找到 `Upload`,
     > 请参考下面的截图。不要在编辑器中手动创建 `\worker.js` 这类带反斜杠的路径；如果保存时报 `No file system handle registered (\worker.js)`，请回到 Explorer 文件列表右键上传根目录的 `worker.js`，然后再点击 `Deploy`。
     >
-    > 参考: [issues156](https://github.com/btc3149-bit/cloudflare_temp_email/issues/156#issuecomment-2079453822)
+    > 参考: [issues156](https://github.com/btc3149-bit/cloudflare-temp-email/issues/156#issuecomment-2079453822)
 
     ![worker3](/ui_install/worker-3.png)
 

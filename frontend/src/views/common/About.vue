@@ -11,7 +11,7 @@ const safeAnnouncement = computed(() => sanitizeHtml(announcement.value))
     <div class="center">
         <n-card :bordered="false" embedded>
             <div v-html="safeAnnouncement"></div>
-            <n-button tag="a" target="_blank" href="https://github.com/btc3149-bit/cloudflare_temp_email">
+            <n-button tag="a" target="_blank" href="https://github.com/btc3149-bit/cloudflare-temp-email">
                 <template #icon>
                     <n-icon :component="GithubAlt" />
                 </template>
@@ -23,7 +23,7 @@ const safeAnnouncement = computed(() => sanitizeHtml(announcement.value))
                 </template>
                 Discord
             </n-button>
-            <n-button tag="a" target="_blank" href="https://t.me/+kUCdWP_WLWZjMzQx">
+            <n-button tag="a" target="_blank" href="#">
                 <template #icon>
                     <n-icon :component="Telegram" />
                 </template>

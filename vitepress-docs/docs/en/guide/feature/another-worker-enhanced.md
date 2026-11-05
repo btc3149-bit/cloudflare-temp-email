@@ -7,14 +7,14 @@
 > References:
 > - https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/rpc/
 > - https://developers.cloudflare.com/workers/runtime-apis/rpc/
-> - auth-inbox project: https://github.com/TooonyChen/AuthInbox
+> - auth-inbox project: https://github.com/btc3149-bit/cloudflare-temp-email
 
 ## Create Another Worker (using auth-inbox AI verification code parsing as an example)
 
 ### Transform Worker to Extend WorkerEntrypoint
 
 A simple worker code that acts as a callee providing RPC method calls is as follows (the rpcEmail method is an example)
-(Using the already modified project https://github.com/oneisall8955/AuthInbox-fork)
+(Using the already modified project https://github.com/btc3149-bit/cloudflare-temp-email)
 
 src/index.ts file
 ```js
@@ -49,7 +49,7 @@ export default class extends WorkerEntrypoint<Env> {
 
     // Expose RPC interface to handle email requests from other workers
     async rpcEmail(requestBody: string): Promise<void> {
-        console.log(`Received request from another worker (temporary email service cloudflare_temp_email), request body: ${requestBody}`);
+        console.log(`Received request from another worker (temporary email service cloudflare-temp-email), request body: ${requestBody}`);
         // requestBody is in JSON format, sent by temporary email service, format as follows
         // type RPCEmailMessage = {
         //     from: string | undefined | null,
@@ -64,7 +64,7 @@ export default class extends WorkerEntrypoint<Env> {
 
 ### Deploy Another Worker
 
-After modification, or using auth-inbox as an example, deploy to Cloudflare Worker. See https://github.com/TooonyChen/AuthInbox, or use the already modified project https://github.com/oneisall8955/AuthInbox-fork
+After modification, or using auth-inbox as an example, deploy to Cloudflare Worker. See https://github.com/btc3149-bit/cloudflare-temp-email, or use the already modified project https://github.com/btc3149-bit/cloudflare-temp-email
 
 ## Configure Temporary Email Service to Use Specified Worker Enhancement
 

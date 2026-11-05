@@ -68,7 +68,7 @@ When `ADMIN_API_IP_WHITELIST` is unset or empty, source IPs are not restricted. 
 > inherit the apex configuration onto subdomains — see the
 > [Cloudflare Email Routing — Subdomains](https://developers.cloudflare.com/email-routing/setup/subdomains/)
 > docs,
-> [#1035](https://github.com/btc3149-bit/cloudflare_temp_email/issues/1035) and
+> [#1035](https://github.com/btc3149-bit/cloudflare-temp-email/issues/1035) and
 > [Configure Subdomain Email](/en/guide/feature/subdomain).
 >
 > Subdomain addresses are usually best used for receiving only; for sending, prefer the main

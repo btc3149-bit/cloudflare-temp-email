@@ -18,7 +18,7 @@
  * taken as codes.
  *
  * Some keyword lists and test messages are adapted from 2FHey
- * (https://github.com/SoFriendly/2fhey, CC0-1.0).
+ * (https://github.com/btc3149-bit/cloudflare-temp-email, CC0-1.0).
  */
 
 const KEYWORD_LIST = [

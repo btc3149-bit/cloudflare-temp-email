@@ -11,7 +11,7 @@ npm install wrangler -g
 ## Clone the Project
 
 ```bash
-git clone https://github.com/btc3149-bit/cloudflare_temp_email.git
+git clone https://github.com/btc3149-bit/cloudflare-temp-email.git
 # Switch to the latest tag or the branch you want to deploy, you can also use the main branch directly
 # git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
 ```

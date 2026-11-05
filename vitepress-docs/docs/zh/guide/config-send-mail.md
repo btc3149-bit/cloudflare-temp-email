@@ -52,7 +52,7 @@ send_email = [
 > Resend 域名验证的 CNAME 记录**必须设置为 仅 DNS**（灰云），在
 > Cloudflare DNS 控制面板中代理（橙云）记录会阻止 Resend
 > 完成验证，且一次失败的尝试可能需要数小时才能重试。
-> 参见 [#515](https://github.com/btc3149-bit/cloudflare_temp_email/issues/515)。
+> 参见 [#515](https://github.com/btc3149-bit/cloudflare-temp-email/issues/515)。
 
 `API KEYS` 页面创建 `api key`
 
@@ -80,7 +80,7 @@ wrangler secret put RESEND_TOKEN_DREAMHUNTER2333_XYZ
 
 `SMTP_CONFIG` 的格式如下，**key 必须是你自己的发信域名**，value 为 SMTP 配置。
 
-SMTP 配置格式详情可以参考 [zou-yu/worker-mailer](https://github.com/zou-yu/worker-mailer/blob/main/README_zh-CN.md)
+SMTP 配置格式详情可以参考 [zou-yu/worker-mailer](https://github.com/btc3149-bit/cloudflare-temp-email/blob/main/README_zh-CN.md)
 
 > [!warning] 重要
 > JSON 中的 key（如下面示例中的 `your-domain.com`）必须替换为**你自己的域名**，即 `DOMAINS` 变量中配置的域名。

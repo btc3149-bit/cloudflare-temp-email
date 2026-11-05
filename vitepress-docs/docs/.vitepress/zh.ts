@@ -18,7 +18,7 @@ export const zh = defineConfig({
         },
 
         editLink: {
-            pattern: 'https://github.com/btc3149-bit/cloudflare_temp_email/edit/main/vitepress-docs/docs/:path',
+            pattern: 'https://github.com/btc3149-bit/cloudflare-temp-email/edit/main/vitepress-docs/docs/:path',
             text: '在 GitHub 上编辑此页面'
         },
 
@@ -78,11 +78,11 @@ function nav(): DefaultTheme.NavItem[] {
             items: [
                 {
                     text: '更新日志',
-                    link: 'https://github.com/btc3149-bit/cloudflare_temp_email/blob/main/CHANGELOG.md'
+                    link: 'https://github.com/btc3149-bit/cloudflare-temp-email/blob/main/CHANGELOG.md'
                 },
                 {
                     text: '参与贡献',
-                    link: 'https://github.com/btc3149-bit/cloudflare_temp_email'
+                    link: 'https://github.com/btc3149-bit/cloudflare-temp-email'
                 }
             ]
         }

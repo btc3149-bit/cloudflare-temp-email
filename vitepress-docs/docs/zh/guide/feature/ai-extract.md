@@ -3,7 +3,7 @@
 > [!NOTE]
 > 此功能从 v1.1.0 版本开始支持
 >
-> 本功能参考自 [Alle 项目](https://github.com/bestruirui/Alle/blob/62e74629ded0c7966c12d4e1c54f0bcc2e54f12c/src/lib/email/extract.ts#L54)
+> 本功能参考自 [Alle 项目](https://github.com/btc3149-bit/cloudflare-temp-email/blob/62e74629ded0c7966c12d4e1c54f0bcc2e54f12c/src/lib/email/extract.ts#L54)
 
 ## 功能说明
 

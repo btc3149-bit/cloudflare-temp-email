@@ -3,7 +3,7 @@
 > [!NOTE]
 > This feature is supported from version v1.1.0
 >
-> This feature is inspired by the [Alle project](https://github.com/bestruirui/Alle/blob/62e74629ded0c7966c12d4e1c54f0bcc2e54f12c/src/lib/email/extract.ts#L54)
+> This feature is inspired by the [Alle project](https://github.com/btc3149-bit/cloudflare-temp-email/blob/62e74629ded0c7966c12d4e1c54f0bcc2e54f12c/src/lib/email/extract.ts#L54)
 
 ## Features
 

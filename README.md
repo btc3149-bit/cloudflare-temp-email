@@ -2,23 +2,23 @@
 # Cloudflare 临时邮箱 - 免费搭建临时邮件服务
 
 <p align="center">
-  <a href="https://temp-mail-docs.awsl.uk" target="_blank">
+  <a href="#" target="_blank">
     <img alt="docs" src="https://img.shields.io/badge/docs-grey?logo=vitepress">
   </a>
-  <a href="https://github.com/btc3149-bit/cloudflare_temp_email/releases/latest" target="_blank">
-    <img src="https://img.shields.io/github/v/release/btc3149-bit/cloudflare_temp_email">
+  <a href="https://github.com/btc3149-bit/cloudflare-temp-email/releases/latest" target="_blank">
+    <img src="https://img.shields.io/github/v/release/btc3149-bit/cloudflare-temp-email">
   </a>
-  <a href="https://github.com/btc3149-bit/cloudflare_temp_email/blob/main/LICENSE" target="_blank">
-    <img alt="MIT License" src="https://img.shields.io/github/license/btc3149-bit/cloudflare_temp_email">
+  <a href="https://github.com/btc3149-bit/cloudflare-temp-email/blob/main/LICENSE" target="_blank">
+    <img alt="MIT License" src="https://img.shields.io/github/license/btc3149-bit/cloudflare-temp-email">
   </a>
-  <a href="https://github.com/btc3149-bit/cloudflare_temp_email/graphs/contributors" target="_blank">
-   <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btc3149-bit/cloudflare_temp_email">
-  </a>
-  <a href="">
-    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/btc3149-bit/cloudflare_temp_email">
+  <a href="https://github.com/btc3149-bit/cloudflare-temp-email/graphs/contributors" target="_blank">
+   <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/btc3149-bit/cloudflare-temp-email">
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/last-commit/btc3149-bit/cloudflare_temp_email">
+    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/btc3149-bit/cloudflare-temp-email">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/btc3149-bit/cloudflare-temp-email">
   </a>
 </p>
 
@@ -43,13 +43,13 @@
 - **现代化界面** - 响应式设计，支持多语言，操作简便
 - **地址密码** - 支持为邮箱地址设置独立密码，增强安全性
 - **Agent 友好** - 内置邮箱 [`skill`](skills/cf-temp-mail-agent-mail/SKILL.md)，方便 AI agent 使用邮箱
-- **移动端管理** - 社区客户端 [CloudMail](https://github.com/Lur1N77777/CloudMail)，支持 Android 管理后台和邮箱管理
+- **移动端管理** - 社区客户端 [CloudMail](https://github.com/btc3149-bit/cloudflare-temp-email)，支持 Android 管理后台和邮箱管理
 
 ## 部署文档 - 快速开始
 
-[部署文档](https://temp-mail-docs.awsl.uk) | [Github Action 部署文档](https://temp-mail-docs.awsl.uk/zh/guide/actions/github-action.html)
+[部署文档](#) | [Github Action 部署文档](#)
 
-<a href="https://temp-mail-docs.awsl.uk/zh/guide/actions/github-action.html">
+<a href="#">
   <img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare Workers" height="32">
 </a>
 
@@ -59,15 +59,15 @@
 
 ## 在线体验
 
-立即体验 → [https://mail.awsl.uk/](https://mail.awsl.uk/)
+立即体验 → [#](#)
 
 <details>
 <summary>服务状态监控（点击收缩/展开）</summary>
 
 |                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Backend](https://temp-email-api.awsl.uk/) | [![Deploy Backend Production](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/backend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/backend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/10/status) ![](https://uptime.aks.awsl.icu/api/badge/10/uptime) ![](https://uptime.aks.awsl.icu/api/badge/10/ping) ![](https://uptime.aks.awsl.icu/api/badge/10/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/10/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/10/response) |
-| [Frontend](https://mail.awsl.uk/)          | [![Deploy Frontend](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/frontend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare_temp_email/actions/workflows/frontend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/12/status) ![](https://uptime.aks.awsl.icu/api/badge/12/uptime) ![](https://uptime.aks.awsl.icu/api/badge/12/ping) ![](https://uptime.aks.awsl.icu/api/badge/12/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/12/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/12/response)         |
+| [Backend](#) | [![Deploy Backend Production](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/10/status) ![](https://uptime.aks.awsl.icu/api/badge/10/uptime) ![](https://uptime.aks.awsl.icu/api/badge/10/ping) ![](https://uptime.aks.awsl.icu/api/badge/10/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/10/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/10/response) |
+| [Frontend](#)          | [![Deploy Frontend](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/12/status) ![](https://uptime.aks.awsl.icu/api/badge/12/uptime) ![](https://uptime.aks.awsl.icu/api/badge/12/ping) ![](https://uptime.aks.awsl.icu/api/badge/12/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/12/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/12/response)         |
 
 </details>
 
@@ -75,9 +75,9 @@
 <summary>Star History（点击收缩/展开）</summary>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare_temp_email&type=Date&theme=dark" />
-  <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare_temp_email&type=Date" />
-  <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare_temp_email&type=Date" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare-temp-email&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare-temp-email&type=Date" />
+  <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=btc3149-bit/cloudflare-temp-email&type=Date" />
 </picture>
 
 </details>
@@ -154,7 +154,7 @@
 - [x] 支持 `CF Turnstile` 人机验证
 - [x] 限流配置，防止滥用
 - [x] **Agent 友好**：内置 [`cf-temp-mail-agent-mail`](skills/cf-temp-mail-agent-mail/SKILL.md) skill，AI agent 可直接消费邮箱，详见 [文档](vitepress-docs/docs/zh/guide/feature/agent-email.md)
-- [x] 社区移动端管理客户端：[CloudMail](https://github.com/Lur1N77777/CloudMail) 基于 Expo / React Native，面向本项目兼容 API，提供 Android 管理员后台、地址管理、收件/发件/未知邮件、验证码快捷复制、OLED 黑主题和本地分组。
+- [x] 社区移动端管理客户端：[CloudMail](https://github.com/btc3149-bit/cloudflare-temp-email) 基于 Expo / React Native，面向本项目兼容 API，提供 Android 管理员后台、地址管理、收件/发件/未知邮件、验证码快捷复制、OLED 黑主题和本地分组。
 
 </details>
 
@@ -200,7 +200,7 @@ nslookup -qt="mx" a.b.com 1.1.1.1
 
 ## 加入社区
 
-- [Telegram](https://t.me/+kUCdWP_WLWZjMzQx)
+- [Telegram](#)
 
 
 <!-- hub-contact -->

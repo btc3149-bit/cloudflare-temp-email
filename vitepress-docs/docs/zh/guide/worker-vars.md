@@ -66,7 +66,7 @@
 > `*` 子域添加通配 MX 记录**：把基础域名上现有的每一条 MX 记录都复制到 `*` 主机名上，
 > 并保留 priority 与 target；Email Routing 子域不继承父域配置，详见 Cloudflare 的
 > [Email Routing — Subdomains](https://developers.cloudflare.com/email-routing/setup/subdomains/)
-> 文档、[#1035](https://github.com/btc3149-bit/cloudflare_temp_email/issues/1035) 与
+> 文档、[#1035](https://github.com/btc3149-bit/cloudflare-temp-email/issues/1035) 与
 > [配置子域名邮箱](/zh/guide/feature/subdomain)。
 >
 > 子域名地址通常更适合收件；如果要发件，仍建议优先使用主域名。

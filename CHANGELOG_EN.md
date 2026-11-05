@@ -16,6 +16,7 @@
 
 ### Bug Fixes
 
+- fix: |Mail Processing| Use the newly stored row ID for metadata updates and Telegram links, avoiding wrong-row updates or links when Message-ID is repeated or missing
 - fix: |Mail Reader| Reset inherited application defaults in Shadow mail and use browser-default system colors for a normal document while preserving sender colors
 - fix: |Telegram| Clean up the current push recipient's binding and push mapping before admin mailbox deletion, freeing a slot and preventing stale pushes on recreation; KV cleanup failures preserve the mailbox for retry, while database deletion failures may leave it unbound
 - fix: |CI| Fix WASM npm publishing paths so local tarballs are not interpreted as GitHub repositories
@@ -169,7 +170,7 @@
 
 - feat: |Frontend| Add six-language frontend support (`zh` / `en` / `es` / `pt-BR` / `ja` / `de`), keep `zh` as the default locale; locale-unprefixed routes (for example `/` and `/user`) render in Chinese by default while still recording browser language as the stored preference. Explicit locale switches are persisted, and the current route, query string, and canonical locale URL stay in sync during switching
 - feat: |API| Add server-side parsed-mail endpoints `/api/parsed_mails` and `/api/parsed_mail/:id` that return `sender` / `subject` / `text` / `html` / `attachments` metadata directly (reuses `commonParseMail`), so AI agents no longer need a client-side MIME parser
-- feat: |Skill| Bundle a read-only skill `cf-temp-mail-agent-mail` (`skills/cf-temp-mail-agent-mail/`) so AI agents like OpenClaw / Codex / Cursor can consume a mailbox with a user-supplied Address JWT + API base URL — list mails, poll verification codes, etc. — sidestepping the Turnstile challenge required to create a mailbox. Install via `npx degit btc3149-bit/cloudflare_temp_email/skills/cf-temp-mail-agent-mail`
+- feat: |Skill| Bundle a read-only skill `cf-temp-mail-agent-mail` (`skills/cf-temp-mail-agent-mail/`) so AI agents like OpenClaw / Codex / Cursor can consume a mailbox with a user-supplied Address JWT + API base URL — list mails, poll verification codes, etc. — sidestepping the Turnstile challenge required to create a mailbox. Install via `npx degit btc3149-bit/cloudflare-temp-email/skills/cf-temp-mail-agent-mail`
 - docs: |Docs| Add "AI Agent Mailbox Usage" doc (`guide/feature/agent-email`) covering the `parsed_mail` API and a local-parse fallback using `mail-parser-wasm` + `postal-mime` (mirrors the frontend) when parsed endpoints are unavailable
 - docs: |Docs| Make "a domain is a hard prerequisite" explicit at the top of `quick-start`, `worker-vars`, and `email-routing` (zh + en), spelling out that Cloudflare Email Routing must be enabled with email DNS records provisioned before deployment, the Catch-all rule must be bound after the Worker is deployed, and subdomains do not inherit the parent domain's Email Routing — so users no longer start deploying without a usable domain and end up unable to receive mail (issue #1004)
 - docs: |Deployment troubleshooting| Improve docs for recent UI-deployment and upgrade issues: document `nodejs_compat`, the required uppercase `DB` D1 binding, `/open_api/settings` verification, backend API URL entry, Cloudflare security challenges causing `Network Error`, D1 size limits and Cron Trigger cleanup, GitHub OAuth public email requirements, the difference between admin passwords and user accounts, and the `enableRandomSubdomain` API flag; move the Help/FAQ menu directly after Core Configuration so it is easier to find
@@ -435,7 +436,7 @@
 ## v0.8.7
 
 - fix: |UI| Fix mobile device date display issue
-- feat: |Worker| Support sending emails via `SMTP`, using [zou-yu/worker-mailer](https://github.com/zou-yu/worker-mailer/blob/main/README_zh-CN.md)
+- feat: |Worker| Support sending emails via `SMTP`, using [zou-yu/worker-mailer](https://github.com/btc3149-bit/cloudflare-temp-email/blob/main/README_zh-CN.md)
 
 ## v0.8.6
 
@@ -515,7 +516,7 @@ UI deployment worker needs to click Settings -> Runtime, modify Compatibility fl
 - feat: Worker adds `ADDRESS_CHECK_REGEX`, address name regex, only for checking, matching will pass check
 - fix: UI fix login page tab active icon misalignment
 - fix: UI fix admin page refresh popup password input issue
-- feat: Support `OAuth2` login, can login via `Github` `Authentik` and other third parties, see details [OAuth2 Third-party Login](https://temp-mail-docs.awsl.uk/en/guide/feature/user-oauth2.html)
+- feat: Support `OAuth2` login, can login via `Github` `Authentik` and other third parties, see details [OAuth2 Third-party Login](#)
 
 ## v0.7.2
 
@@ -564,7 +565,7 @@ DB changes: Add user role table, need to execute `db/2024-07-14-patch.sql` to up
 
 ### Changes
 
-Worker configuration file adds `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_ROLE`, see documentation [worker configuration](https://temp-mail-docs.awsl.uk/en/guide/cli/worker.html)
+Worker configuration file adds `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_ROLE`, see documentation [worker configuration](#)
 
 - Remove `apiV1` related code and related database tables
 - Update `admin/statistics` api, add user statistics info
@@ -582,13 +583,13 @@ Worker configuration file adds `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_RO
 - Fix some bugs in smtp imap proxy server
 - Improve user/admin delete inbox/outbox functionality
 - Admin can delete send permission records
-- Add Chinese email alias configuration `DOMAIN_LABELS` [documentation](https://temp-mail-docs.awsl.uk/en/guide/cli/worker.html)
+- Add Chinese email alias configuration `DOMAIN_LABELS` [documentation](#)
 - Remove `mail channels` related code
 - github actions adds `FRONTEND_BRANCH` variable to specify deployment branch (#324)
 
 ## v0.5.1
 
-- Add `mail-parser-wasm-worker` for worker email parsing, [documentation](https://temp-mail-docs.awsl.uk/en/guide/feature/mail_parser_wasm_worker.html)
+- Add `mail-parser-wasm-worker` for worker email parsing, [documentation](#)
 - Add user email length validation configuration `MIN_ADDRESS_LEN` and `MAX_ADDRESS_LEN`
 - Fix `pages function` not forwarding `telegram` api issue
 
@@ -610,7 +611,7 @@ Worker configuration file adds `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_RO
 - UI lazy load
 - telegram bot adds user global push feature (admin users)
 - Add support for cloudflare verified user sending emails
-- Add using `resend` to send emails, `resend` provides http and smtp api, easier to use, documentation: https://temp-mail-docs.awsl.uk/en/guide/config-send-mail.html
+- Add using `resend` to send emails, `resend` provides http and smtp api, easier to use, documentation: #
 
 ## v0.4.4
 
@@ -633,28 +634,28 @@ Configuration file `main = "src/worker.js"` changed to `main = "src/worker.ts"`
 - UI: outbox also uses split view display (similar to inbox)
 - `SMTP IMAP Proxy` add outbox viewing
 
-* feat: telegram bot TelegramSettings && webhook by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/244
-* fix build by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/245
-* feat: UI changes by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/247
-* feat: SMTP IMAP Proxy: add sendbox && UI: sendbox use split view by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/248
+* feat: telegram bot TelegramSettings && webhook by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/244
+* fix build by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/245
+* feat: UI changes by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/247
+* feat: SMTP IMAP Proxy: add sendbox && UI: sendbox use split view by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/248
 
 ## v0.4.2
 
 - Fix some bugs in smtp imap proxy server
 - Fix UI interface text errors, interface adds version number
-- Add telegram bot documentation https://temp-mail-docs.awsl.uk/en/guide/feature/telegram.html
+- Add telegram bot documentation #
 
-* fix: imap server by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/227
-* fix: Maintenance wrong label by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/229
-* feat: add version for frontend && backend by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/230
-* feat: add page functions proxy to make response faster by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/234
-* feat: add about page by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/235
-* feat: remove mailV1Alert && fix mobile showSideMargin by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/236
-* feat: telegram bot by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/238
-* fix: remove cleanup address due to many table need to be clean by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/240
-* feat: docs: Telegram Bot by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/241
-* fix: smtp_proxy: cannot decode 8bit && tg bot new random address by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/242
-* fix: smtp_proxy: update raise imap4.NoSuchMailbox by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/243
+* fix: imap server by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/227
+* fix: Maintenance wrong label by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/229
+* feat: add version for frontend && backend by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/230
+* feat: add page functions proxy to make response faster by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/234
+* feat: add about page by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/235
+* feat: remove mailV1Alert && fix mobile showSideMargin by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/236
+* feat: telegram bot by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/238
+* fix: remove cleanup address due to many table need to be clean by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/240
+* feat: docs: Telegram Bot by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/241
+* fix: smtp_proxy: cannot decode 8bit && tg bot new random address by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/242
+* fix: smtp_proxy: update raise imap4.NoSuchMailbox by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/243
 
 ### v0.4.1
 
@@ -663,16 +664,16 @@ Configuration file `main = "src/worker.js"` changed to `main = "src/worker.ts"`
 - Add `IMAP proxy` service, support `IMAP` viewing emails
 - UI interface adds version number display
 
-* feat: use common function handleListQuery when query by page by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/220
-* fix: typos by @lwd-temp in https://github.com/btc3149-bit/cloudflare_temp_email/pull/221
-* fix: name max 30 && /external/api/send_mail not return result by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/222
-* fix: smtp_proxy_server support decode from mail charset by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/223
-* feat: add imap proxy server by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/225
-* feat: UI show version by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/226
+* feat: use common function handleListQuery when query by page by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/220
+* fix: typos by @lwd-temp in https://github.com/btc3149-bit/cloudflare-temp-email/pull/221
+* fix: name max 30 && /external/api/send_mail not return result by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/222
+* fix: smtp_proxy_server support decode from mail charset by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/223
+* feat: add imap proxy server by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/225
+* feat: UI show version by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/226
 
 ### New Contributors
 
-* @lwd-temp made their first contribution in https://github.com/btc3149-bit/cloudflare_temp_email/pull/221
+* @lwd-temp made their first contribution in https://github.com/btc3149-bit/cloudflare-temp-email/pull/221
 
 ## v0.4.0
 
@@ -702,14 +703,14 @@ Enable user registration email verification requires `KV`
 - Fix bug where emails weren't deleted when deleting addresses #213
 - UI adds global tab position configuration, side margin configuration
 
-* feat: update docs by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/204
-* feat: add Deploy to Cloudflare Workers button by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/205
-* feat: add Deploy to Cloudflare Workers docs by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/206
-* feat: add UserLogin by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/209
-* feat: admin search mailbox && fix generateName multi dot && user jwt exp in 30 days && UI globalTabplacement && useSideMargin by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/214
-* feat: UI check openSettings in Login page by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/215
-* feat: UI move AdminContact to common by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/217
-* feat: docs by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/218
+* feat: update docs by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/204
+* feat: add Deploy to Cloudflare Workers button by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/205
+* feat: add Deploy to Cloudflare Workers docs by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/206
+* feat: add UserLogin by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/209
+* feat: admin search mailbox && fix generateName multi dot && user jwt exp in 30 days && UI globalTabplacement && useSideMargin by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/214
+* feat: UI check openSettings in Login page by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/215
+* feat: UI move AdminContact to common by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/217
+* feat: docs by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/218
 
 ## v0.3.3
 
@@ -727,9 +728,9 @@ Enable user registration email verification requires `KV`
 - Add scheduled cleanup feature, configurable in admin page (need to enable scheduled task in config file)
 - Fix delete account no response issue
 
-* feat: UI: MailBox add reply button by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/187
-* feat: add cron auto clean up by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/189
-* fix: delete account by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/190
+* feat: UI: MailBox add reply button by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/187
+* feat: add cron auto clean up by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/189
+* fix: delete account by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/190
 
 ## v0.3.1
 
@@ -749,15 +750,15 @@ Added `settings` table for storing general configuration information
 - UI allows users to switch email display mode `v-html` / `iframe`
 - Add `admin` account configuration page, support configuring user registration name blacklist
 
-* feat: support admin create address && add ENABLE_USER_CREATE_EMAIL co… by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/175
-* feat: add SMTP proxy server by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/177
-* fix: cf ui var is string by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/178
-* fix: UI mailbox 100vh to 80vh by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/179
-* fix: smtp_proxy_server hostname && add docker image for linux/arm64 by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/180
-* fix: some browser do not support wasm by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/182
-* feat: add COPYRIGHT by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/183
-* feat: UI: add user page: useIframeShowMail && mailboxSplitSize by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/184
-* feat: add address_block_list for new address by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/185
+* feat: support admin create address && add ENABLE_USER_CREATE_EMAIL co… by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/175
+* feat: add SMTP proxy server by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/177
+* fix: cf ui var is string by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/178
+* fix: UI mailbox 100vh to 80vh by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/179
+* fix: smtp_proxy_server hostname && add docker image for linux/arm64 by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/180
+* fix: some browser do not support wasm by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/182
+* feat: add COPYRIGHT by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/183
+* feat: UI: add user page: useIframeShowMail && mailboxSplitSize by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/184
+* feat: add address_block_list for new address by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/185
 
 ## v0.3.0
 
@@ -783,11 +784,11 @@ set
 - `admin` send permission page supports search by address
 - `admin` email page uses split view UI
 
-* feat: remove PREFIX logic in db by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/171
-* feat: admin page add account mail count && sendbox default all && sen… by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/172
-* feat: all mail use MailBox Component by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/173
+* feat: remove PREFIX logic in db by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/171
+* feat: admin page add account mail count && sendbox default all && sen… by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/172
+* feat: all mail use MailBox Component by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/173
 
-**Full Changelog**: https://github.com/btc3149-bit/cloudflare_temp_email/compare/0.2.10...v0.3.0
+**Full Changelog**: https://github.com/btc3149-bit/cloudflare-temp-email/compare/0.2.10...v0.3.0
 
 ## v0.2.10
 
@@ -796,8 +797,8 @@ set
 - fetchAddressError prompt improvement
 - Auto refresh shows countdown
 
-* feat: docs update by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/165
-* feat: add ENABLE_USER_DELETE_EMAIL && ENABLE_AUTO_REPLY && modify fetchAddressError i18n && UI: show autoRefreshInterval by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/169
+* feat: docs update by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/165
+* feat: add ENABLE_USER_DELETE_EMAIL && ENABLE_AUTO_REPLY && modify fetchAddressError i18n && UI: show autoRefreshInterval by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/169
 
 ## v0.2.9
 
@@ -813,11 +814,11 @@ set
 - Add RATE_LIMITER rate limiting for sending emails and creating new addresses
 - Some bug fixes
 
-- feat: allow user delete mail && notify when send access changed by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/132
-- feat: request_send_mail_access default 1 balance by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/143
-- fix: RATE_LIMITER not call jwt by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/146
-- fix: delete_address not delete address_sender by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/153
-- fix: send_balance not update when click sendmail by @btc3149-bit in https://github.com/btc3149-bit/cloudflare_temp_email/pull/155
+- feat: allow user delete mail && notify when send access changed by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/132
+- feat: request_send_mail_access default 1 balance by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/143
+- fix: RATE_LIMITER not call jwt by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/146
+- fix: delete_address not delete address_sender by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/153
+- fix: send_balance not update when click sendmail by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/155
 
 ## v0.2.7
 
