@@ -10,12 +10,14 @@
 
 ### Features
 
+- feat: |Mail Forwarding| Route forwarding rules internally by configured domain with independent receive processing, extraction and notifications, no second forwarding and only one auto-reply; optionally delete the original at the end and keep global forwarding external-only with its existing behavior
 - feat: |User System| Add `DISABLE_USER_SYSTEM` to block user APIs, disable user admin tokens, and hide user interfaces
 - feat: |Mailbox Login| Add a password-only login-page switch that requires mailbox passwords; preserve existing credentials, login links, API access, and JWT lifetimes
 - feat: |Mailbox Credential| Show a QR code of the auto-login link in the credential dialog for opening the mailbox on mobile, with a reminder that anyone with the QR code can access the mailbox (issue #1189)
 
 ### Bug Fixes
 
+- fix: |Scheduled Cleanup| Catch errors for each built-in and custom SQL cleanup task, log failures, and continue with subsequent tasks
 - fix: |Mail Processing| Use the newly stored row ID for metadata updates and Telegram links, avoiding wrong-row updates or links when Message-ID is repeated or missing
 - fix: |Mail Reader| Reset inherited application defaults in Shadow mail and use browser-default system colors for a normal document while preserving sender colors
 - fix: |Telegram| Clean up the current push recipient's binding and push mapping before admin mailbox deletion, freeing a slot and preventing stale pushes on recreation; KV cleanup failures preserve the mailbox for retry, while database deletion failures may leave it unbound
@@ -28,6 +30,7 @@
 
 ### Improvements
 
+- perf: |Database| Upgrade the schema to `v0.0.10` with a covering index for unknown-mail cleanup and an expression-based composite index for domain cleanup; compare major, minor, and patch versions numerically to avoid two-digit version errors and version-marker downgrades
 - docs: |User| Document mailbox binding, bound mailbox credential retrieval, and unbinding APIs with dual authentication requirements and request examples
 
 - perf: |CI| Organize test suites and run a dedicated Webhook UI group alongside API, other browser tests and SMTP/IMAP, with only each group's required services, separate unit/WASM tests and one aggregate check
@@ -516,7 +519,7 @@ UI deployment worker needs to click Settings -> Runtime, modify Compatibility fl
 - feat: Worker adds `ADDRESS_CHECK_REGEX`, address name regex, only for checking, matching will pass check
 - fix: UI fix login page tab active icon misalignment
 - fix: UI fix admin page refresh popup password input issue
-- feat: Support `OAuth2` login, can login via `Github` `Authentik` and other third parties, see details [OAuth2 Third-party Login](#)
+- feat: Support `OAuth2` login, can login via `Github` `Authentik` and other third parties, see details [OAuth2 Third-party Login](https://probrook.com)
 
 ## v0.7.2
 
@@ -565,7 +568,7 @@ DB changes: Add user role table, need to execute `db/2024-07-14-patch.sql` to up
 
 ### Changes
 
-Worker configuration file adds `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_ROLE`, see documentation [worker configuration](#)
+Worker configuration file adds `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_ROLE`, see documentation [worker configuration](https://probrook.com)
 
 - Remove `apiV1` related code and related database tables
 - Update `admin/statistics` api, add user statistics info
@@ -583,13 +586,13 @@ Worker configuration file adds `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_RO
 - Fix some bugs in smtp imap proxy server
 - Improve user/admin delete inbox/outbox functionality
 - Admin can delete send permission records
-- Add Chinese email alias configuration `DOMAIN_LABELS` [documentation](#)
+- Add Chinese email alias configuration `DOMAIN_LABELS` [documentation](https://probrook.com)
 - Remove `mail channels` related code
 - github actions adds `FRONTEND_BRANCH` variable to specify deployment branch (#324)
 
 ## v0.5.1
 
-- Add `mail-parser-wasm-worker` for worker email parsing, [documentation](#)
+- Add `mail-parser-wasm-worker` for worker email parsing, [documentation](https://probrook.com)
 - Add user email length validation configuration `MIN_ADDRESS_LEN` and `MAX_ADDRESS_LEN`
 - Fix `pages function` not forwarding `telegram` api issue
 
@@ -611,7 +614,7 @@ Worker configuration file adds `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_RO
 - UI lazy load
 - telegram bot adds user global push feature (admin users)
 - Add support for cloudflare verified user sending emails
-- Add using `resend` to send emails, `resend` provides http and smtp api, easier to use, documentation: #
+- Add using `resend` to send emails, `resend` provides http and smtp api, easier to use, documentation: https://probrook.com
 
 ## v0.4.4
 
@@ -643,7 +646,7 @@ Configuration file `main = "src/worker.js"` changed to `main = "src/worker.ts"`
 
 - Fix some bugs in smtp imap proxy server
 - Fix UI interface text errors, interface adds version number
-- Add telegram bot documentation #
+- Add telegram bot documentation https://probrook.com
 
 * fix: imap server by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/227
 * fix: Maintenance wrong label by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/229

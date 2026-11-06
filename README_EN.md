@@ -2,7 +2,7 @@
 # Cloudflare Temp Email - Free Temporary Email Service
 
 <p align="center">
-  <a href="#" target="_blank">
+  <a href="https://probrook.com" target="_blank">
     <img alt="docs" src="https://img.shields.io/badge/docs-grey?logo=vitepress">
   </a>
   <a href="https://github.com/btc3149-bit/cloudflare-temp-email/releases/latest" target="_blank">
@@ -47,9 +47,9 @@
 
 ## Deployment Documentation - Quick Start
 
-[Documentation](#) | [Github Action Deployment Guide](#)
+[Documentation](https://probrook.com) | [Github Action Deployment Guide](https://probrook.com)
 
-<a href="#">
+<a href="https://probrook.com">
   <img src="https://deploy.workers.cloudflare.com/button" alt="Deploy to Cloudflare Workers" height="32">
 </a>
 
@@ -59,15 +59,15 @@ See [CHANGELOG](CHANGELOG.md) for the latest updates.
 
 ## Live Demo
 
-Try it now → [#](#)
+Try it now → [https://probrook.com](https://probrook.com)
 
 <details>
 <summary>Service Status Monitoring (Click to expand/collapse)</summary>
 
 |                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Backend](#) | [![Deploy Backend Production](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/10/status) ![](https://uptime.aks.awsl.icu/api/badge/10/uptime) ![](https://uptime.aks.awsl.icu/api/badge/10/ping) ![](https://uptime.aks.awsl.icu/api/badge/10/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/10/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/10/response) |
-| [Frontend](#)          | [![Deploy Frontend](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/12/status) ![](https://uptime.aks.awsl.icu/api/badge/12/uptime) ![](https://uptime.aks.awsl.icu/api/badge/12/ping) ![](https://uptime.aks.awsl.icu/api/badge/12/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/12/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/12/response)         |
+| [Backend](https://probrook.com) | [![Deploy Backend Production](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/backend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/10/status) ![](https://uptime.aks.awsl.icu/api/badge/10/uptime) ![](https://uptime.aks.awsl.icu/api/badge/10/ping) ![](https://uptime.aks.awsl.icu/api/badge/10/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/10/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/10/response) |
+| [Frontend](https://probrook.com)          | [![Deploy Frontend](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml/badge.svg)](https://github.com/btc3149-bit/cloudflare-temp-email/actions/workflows/frontend_deploy.yaml) ![](https://uptime.aks.awsl.icu/api/badge/12/status) ![](https://uptime.aks.awsl.icu/api/badge/12/uptime) ![](https://uptime.aks.awsl.icu/api/badge/12/ping) ![](https://uptime.aks.awsl.icu/api/badge/12/avg-response) ![](https://uptime.aks.awsl.icu/api/badge/12/cert-exp) ![](https://uptime.aks.awsl.icu/api/badge/12/response)         |
 
 </details>
 
@@ -199,4 +199,4 @@ nslookup -qt="mx" a.b.com 1.1.1.1
 
 ## Join the Community
 
-- [Telegram](#)
+- [Telegram](https://t.me/+kUCdWP_WLWZjMzQx)

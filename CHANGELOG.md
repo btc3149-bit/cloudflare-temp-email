@@ -10,12 +10,14 @@
 
 ### Features
 
+- feat: |邮件转发| 转发规则按配置域名复用站内收件流程，独立提取和推送且不再转发，自动回复仅执行一次；规则可选流程结束后删除原邮件，全局转发仅支持外部地址并保持原有方式
 - feat: |用户系统| 新增 `DISABLE_USER_SYSTEM` 总开关，统一拦截用户接口、停用用户管理员令牌并隐藏前端用户界面
 - feat: |邮箱登录| 新增登录页仅显示密码登录的开关，仅在启用邮箱密码时生效；旧凭据、登录链接、API 访问和 JWT 时效保持原有行为
 - feat: |邮箱凭证| 自动登录链接折叠项新增二维码，方便手机扫码打开邮箱，并提示持有二维码者可访问该邮箱（issue #1189）
 
 ### Bug Fixes
 
+- fix: |定时清理| 分别捕获各项内置清理和自定义 SQL 清理异常，记录错误并继续执行后续任务
 - fix: |邮件处理| metadata 更新和 Telegram 邮件链接改用本次入库 ID，避免重复或缺失 Message-ID 导致更新错记录或链接定位错误
 - fix: |邮件阅读| 重置 Shadow 邮件继承的应用默认样式，使用浏览器普通文档的默认系统颜色并保留发件人配色
 - fix: |Telegram| 管理员删除邮箱前清理当前推送用户的绑定及推送映射，释放名额并避免同名重建后继续推送；KV 清理失败时保留邮箱供重试，数据库删除失败时可能已解绑
@@ -28,6 +30,7 @@
 
 ### Improvements
 
+- perf: |数据库| Schema 升级至 `v0.0.10`，为未知地址邮件清理增加覆盖索引、为域名清理增加表达式联合索引；按主、次、补丁版本逐段比较迁移版本，避免两位数版本误判及回退版本标记
 - docs: |用户系统| 补充邮箱绑定、获取已绑定邮箱凭据及解绑 API 的双重鉴权说明和请求示例
 
 - perf: |CI| 整理测试目录，独立 Webhook UI 功能组，与 API、其他浏览器测试、SMTP/IMAP 并行执行；仅启动各组所需服务，保留单元测试、WASM 测试与统一检查结果
@@ -516,7 +519,7 @@ UI 部署 worker 需要点击 Settings -> Runtime, 修改 Compatibility flags, �
 - feat: worker 增加 `ADDRESS_CHECK_REGEX`, address name 的正则表达式, 只用于检查，符合条件将通过检查
 - fix: UI 修复登录页面 tab 激活图标错位
 - fix: UI 修复 admin 页面刷新弹框输入密码的问题
-- feat: support `Oath2` 登录, 可以通过 `Github` `Authentik` 等第三方登录, 详情查看 [OAuth2 第三方登录](#)
+- feat: support `Oath2` 登录, 可以通过 `Github` `Authentik` 等第三方登录, 详情查看 [OAuth2 第三方登录](https://probrook.com)
 
 ## v0.7.2
 
@@ -565,7 +568,7 @@ DB changes: 增加用户角色表, 需要执行 `db/2024-07-14-patch.sql` 更新
 
 ### Changes
 
-worker 配置文件新增 `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_ROLE`, 具体查看文档 [worker配置](#)
+worker 配置文件新增 `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_ROLE`, 具体查看文档 [worker配置](https://probrook.com)
 
 - 移除 `apiV1` 相关代码和相关的数据库表
 - 更新 `admin/statistics` api, 添加用户统计信息
@@ -583,13 +586,13 @@ worker 配置文件新增 `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_ROLE`, 
 - 修复 smtp imap proxy sever 的一些 bug
 - 完善用户/admin 删除收件箱/发件箱的功能
 - admin 可以删除 发件权限记录
-- 添加中文邮件别名配置 `DOMAIN_LABELS` [文档](#)
+- 添加中文邮件别名配置 `DOMAIN_LABELS` [文档](https://probrook.com)
 - 移除 `mail channels` 相关代码
 - github actions 增加 `FRONTEND_BRANCH` 变量用于指定部署的分支 (#324)
 
 ## v0.5.1
 
-- 添加 `mail-parser-wasm-worker` 用于 worker 解析邮件, [文档](#)
+- 添加 `mail-parser-wasm-worker` 用于 worker 解析邮件, [文档](https://probrook.com)
 - 添加校验用户邮箱长度配置 `MIN_ADDRESS_LEN` 和 `MAX_ADDRESS_LEN`
 - 修复 `pages function` 未转发 `telegram` api 问题
 
@@ -611,7 +614,7 @@ worker 配置文件新增 `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_ROLE`, 
 - UI lazy load 懒加载
 - telegram bot 添加用户全局推送功能(admin 用户)
 - 增加对 cloudflare verified 用户发送邮件
-- 增加使用 `resend` 发送邮件, `resend` 提供 http 和 smtp api, 使用更加方便, 文档: #
+- 增加使用 `resend` 发送邮件, `resend` 提供 http 和 smtp api, 使用更加方便, 文档: https://probrook.com
 
 ## v0.4.4
 
@@ -643,7 +646,7 @@ worker 配置文件新增 `DEFAULT_DOMAINS`, `USER_ROLES`, `USER_DEFAULT_ROLE`, 
 
 - 修复 smtp imap proxy sever 的一些 bug
 - 修复 UI 界面文字错误, 界面增加版本号
-- 增加  telegram bot 文档 #
+- 增加  telegram bot 文档 https://probrook.com
 
 * fix: imap server by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/227
 * fix: Maintenance wrong label by @btc3149-bit in https://github.com/btc3149-bit/cloudflare-temp-email/pull/229

@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 立即试用
-      link: #
+      link: https://probrook.com
     - theme: alt
       text: 命令行部署
       link: /zh/guide/quick-start

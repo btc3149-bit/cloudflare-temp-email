@@ -29,8 +29,8 @@ const configuredApiBaseUrl = APP_CONFIG.API_BASE || ''
 const frontendBaseUrl = computed(() => window.location.origin)
 const apiBaseUrl = computed(() => (configuredApiBaseUrl || frontendBaseUrl.value).replace(/\/$/, ''))
 const docLocale = computed(() => locale.value === 'zh' ? 'zh' : 'en')
-const agentDocUrl = computed(() => `#${docLocale.value}/guide/feature/agent-email.html`)
-const smtpImapDocUrl = computed(() => `#${docLocale.value}/guide/feature/config-smtp-proxy.html`)
+const agentDocUrl = computed(() => `https://probrook.com${docLocale.value}/guide/feature/agent-email.html`)
+const smtpImapDocUrl = computed(() => `https://probrook.com${docLocale.value}/guide/feature/config-smtp-proxy.html`)
 const agentSkillUrl = 'https://github.com/btc3149-bit/cloudflare-temp-email/blob/main/skills/cf-temp-mail-agent-mail/SKILL.md'
 const autoLoginUrl = computed(() => `${frontendBaseUrl.value}/?jwt=${encodeURIComponent(props.jwt)}`)
 const showAgent = computed(() => !!openSettings.value.enableAgentEmailInfo)

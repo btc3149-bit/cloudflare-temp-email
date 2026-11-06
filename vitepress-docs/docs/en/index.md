@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: Try it now
-      link: #
+      link: https://probrook.com
     - theme: alt
       text: CLI Deployment
       link: /en/guide/quick-start

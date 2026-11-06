@@ -29,7 +29,7 @@ When a `Public email` is selected in the GitHub profile, the default `https://ap
 endpoint with `User Email Key = email` can still be used. Merely changing an email from private to
 visible without selecting it as the public email can still make the `/user` API return `email: null`.
 
-Reference: [Creating an OAuth App](#)
+Reference: [Creating an OAuth App](https://probrook.com)
 
 ### Linux Do
 
@@ -38,7 +38,7 @@ Reference: [Creating an OAuth App](#)
 
 ### Authentik
 
-- [Authentik OAuth2 Provider](#)
+- [Authentik OAuth2 Provider](https://probrook.com)
 
 ## Configure OAuth2 in Admin Backend
 

@@ -45,7 +45,7 @@
    | 名称               | 说明                                                                                                                                                                                      |
    | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
    | `FRONTEND_ENV`     | `Deploy Frontend` workflow 使用的前端配置文件，请复制 `frontend/.env.example` 的内容，并参考 [前端变量说明](/zh/guide/frontend-vars) 修改 |
-   | `FRONTEND_NAME`    | 你在 Cloudflare Pages 创建的项目名称，可通过 [用户界面](#) 或者 [命令行](#) 创建 |
+   | `FRONTEND_NAME`    | 你在 Cloudflare Pages 创建的项目名称，可通过 [用户界面](https://probrook.com) 或者 [命令行](https://probrook.com) 创建 |
    | `FRONTEND_BRANCH`  | (可选) pages 部署的分支，可不配置，默认 `production`                                                                                                                                      |
    | `PAGE_TOML`        | (可选) 仅供 `Deploy Frontend with page function` workflow 使用。通过 page functions 转发后端请求时需要配置，请复制 `pages/wrangler.toml` 的内容，并根据实际情况修改 `service` 字段为你的 worker 后端名称。这个 workflow 会以 Pages 模式构建前端并走同域请求，因此不会读取 `FRONTEND_ENV` |
    | `TG_FRONTEND_NAME` | (可选) 你在 Cloudflare Pages 创建的项目名称，同 `FRONTEND_NAME`，如果需要 Telegram Mini App 功能，请填写                                                                                  |

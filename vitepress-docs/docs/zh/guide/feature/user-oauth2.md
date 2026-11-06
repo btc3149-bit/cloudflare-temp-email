@@ -23,7 +23,7 @@
 
 GitHub 个人资料中选择了 `Public email` 时，可以继续使用默认的 `https://api.github.com/user` + `email` 配置；只把邮箱从 private 改成可见但没有选择公开邮箱时，`/user` 接口仍可能返回 `email: null`。
 
-参考 [Creating an OAuth App](#)
+参考 [Creating an OAuth App](https://probrook.com)
 
 ### Linux Do
 
@@ -32,7 +32,7 @@ GitHub 个人资料中选择了 `Public email` 时，可以继续使用默认的
 
 ### Authentik
 
-- [Authentik OAuth2 Provider](#)
+- [Authentik OAuth2 Provider](https://probrook.com)
 
 ## Admin 后台配置 OAuth2
 

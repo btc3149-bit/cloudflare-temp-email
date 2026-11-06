@@ -85,7 +85,7 @@ const presets: WebhookPreset[] = [
     },
     {
         name: 'ntfy',
-        doc: '#',
+        doc: 'https://probrook.com',
         settings: {
             enabled: true,
             url: 'https://ntfy.sh/YOUR_TOPIC',

@@ -122,7 +122,7 @@ const generate = async () => {
     ![pages](/ui_install/pages.png)
 
 3. Enter the deployed worker address. It must be the backend API root URL, start with `https://`, and must not include a trailing `/`. Click generate, and if successful, a download button will appear. You will get a zip package.
-    - The worker domain here is the backend API domain. For example, if I deployed at `#`, then fill in `#`
+    - The worker domain here is the backend API domain. For example, if I deployed at `https://probrook.com`, then fill in `https://probrook.com`
     - If your domain is `https://temp-email-api.xxx.workers.dev`, then fill in `https://temp-email-api.xxx.workers.dev`
     - Do not enter your frontend `Pages` domain, and do not include paths like `/admin` or `/api`. Otherwise frontend requests will hit the wrong address and you may see `Cannot read properties of undefined (reading 'map')` or `405 Method Not Allowed`
     - Before filling it in, open `https://your-worker-domain/open_api/settings` in the browser and confirm it returns JSON. If it returns HTML, 404, 405, or a Cloudflare challenge page, fix the Worker binding, variables, or security policy first
