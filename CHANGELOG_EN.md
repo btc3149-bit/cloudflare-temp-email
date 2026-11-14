@@ -24,12 +24,15 @@
 
 ### Bug Fixes
 
+- fix: |Inbox| Keep the current message and restore the page and page size when pagination fails
+- fix: |Inbox| Show simple inbox refresh success only after a successful fetch
 - fix: |Mail Reader| Sanitize Shadow DOM email previews when remote images are allowed
 - fix: |Health Check| Return `OK` from `/health_check` when the Worker has an `ASSETS` binding instead of the frontend page, so uptime monitors can use it
 - fix: |Create Address| Lowercase generated names before filtering characters, so the default `[^a-z0-9]` rule no longer drops the first letter of each name part and leaves names mangled or too short
 - fix: |Mail Reader| Sandbox regular and fullscreen iframe previews to block scripts in email bodies
 - fix: |Scheduled Cleanup| Catch errors for each built-in and custom SQL cleanup task, log failures, and continue with subsequent tasks
 - fix: |Header| Add horizontal spacing to the phone header
+- fix: |Inbox| Keep failed batch-delete selections and show success only when the batch completes
 - fix: |Mail Processing| Use the newly stored row ID for metadata updates and Telegram links, avoiding wrong-row updates or links when Message-ID is repeated or missing
 - fix: |Mail Reader| Reset inherited application defaults in Shadow mail and use browser-default system colors for a normal document while preserving sender colors
 - fix: |Telegram| Clean up the current push recipient's binding and push mapping before admin mailbox deletion, freeing a slot and preventing stale pushes on recreation; KV cleanup failures preserve the mailbox for retry, while database deletion failures may leave it unbound
@@ -46,6 +49,7 @@
 ### Improvements
 
 - perf: |CI| Reuse E2E images, schedule browser tests in parallel, reduce page reloads, fixed waits and repeated browser actions, and speed up WASM tool installation
+- docs: |Documentation| Add guidance for mailbox, User Center, and Admin Console login entry points; list each Worker variable's required status and default behavior; explain custom roles; compare sending channels; and update Node.js compatibility steps by compatibility date
 - perf: |Database| Upgrade the schema to `v0.0.10` with a covering index for unknown-mail cleanup and an expression-based composite index for domain cleanup; compare major, minor, and patch versions numerically to avoid two-digit version errors and version-marker downgrades
 - docs: |User| Document mailbox binding, bound mailbox credential retrieval, and unbinding APIs with dual authentication requirements and request examples
 
