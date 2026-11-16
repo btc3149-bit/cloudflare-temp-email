@@ -282,7 +282,12 @@ jobs:
         if: always()
         run: |
           STATUS="${{ job.status }}"
-          LOGS=$(tail -c 4000 /tmp/deploy.log 2>/dev/null || true)
+          # ★ 2026-11-15（B22，评审 4.18）：原来只回传 tail -c 4000（最后 4000 字符）。
+          #   构建失败的**根因常常在开头**（依赖装不上 / 配置 echo / 环境校验那几行），
+          #   只看尾巴等于把最该看的那半段扔掉。改成「头 1500 + 尾 4000」，中间留一行省略标记。
+          #   仍保持**每次覆盖**（同一 deploy 重跑只留最后一轮，幂等）—— 那是刻意的取舍，
+          #   理由见 functions/[[path]].ts 里 /api/deploys/:id/status 的注释。
+          LOGS=$( { head -c 1500 /tmp/deploy.log 2>/dev/null; echo; echo "…（中间省略；完整日志见 GitHub Actions 运行页）…"; tail -c 4000 /tmp/deploy.log 2>/dev/null; } )
           jq -n --arg s "${STATUS}" --arg l "${LOGS}" '{status:$s,logs:$l}' > /tmp/req.json
           curl -sS -X POST -H "X-Deploy-Token: ${DEPLOY_TOKEN}" -H "Content-Type: application/json" -d @/tmp/req.json "${HUB_URL}/api/deploys/${DEPLOY_ID}/status" || true
         env:
