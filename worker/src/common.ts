@@ -2,30 +2,24 @@ import { Context } from 'hono';
 import { createAddressToken } from './address_auth';
 import { WorkerMailerOptions } from 'worker-mailer';
 
-import { getBooleanValue, getDomains, getStringArray, getStringValue, getIntValue, getUserRoles, getDefaultDomains, getJsonSetting, getAnotherWorkerList, hashPassword, getJsonObjectValue, getRandomSubdomainDomains, getDomainMapValue, isDomainOrSubdomain, normalizeDomains, trimLower } from './utils';
+import { getBooleanValue, getDomains, getStringArray, getIntValue, getUserRoles, getDefaultDomains, getAnotherWorkerList, hashPassword, getJsonObjectValue, getDomainMapValue, isDomainOrSubdomain, normalizeDomains, trimLower } from './utils';
 import { unbindTelegramByAddress } from './telegram_api/common';
 import { CONSTANTS } from './constants';
-import { AddressCreationSettings, AdminWebhookSettings, ExtractResult, WebhookMail, WebhookSettings } from './models';
+import { AdminWebhookSettings, ExtractResult, WebhookMail, WebhookSettings } from './models';
 import i18n from './i18n';
 import { formatWebhookBody, getWebhookAttachments } from './utils/webhook';
 import { compileFilter, type FilterValues } from './utils/filter';
+import { commonParseMail } from './utils/mail_parser';
+import { isAddressExpiryEnabled, normalizeAddressExpiresAt, shouldRejectExpiryInput } from './utils/address_expiry';
+import {
+    allowRandomSubdomainForDomain, checkNameBlockList, checkNameRegex, findMatchedAllowedDomain,
+    generateRandomSubdomain, getAddressCreationSubdomainMatchStatus, getNameRegex,
+} from './utils/address_creation';
 
-const DEFAULT_NAME_REGEX = /[^a-z0-9]/g;
-const DEFAULT_RANDOM_SUBDOMAIN_LENGTH = 8;
 const MAX_RANDOM_SUBDOMAIN_ATTEMPTS = 5;
-const MAX_DOMAIN_LENGTH = 253;
-const DOMAIN_LABEL_RE = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 
 const normalizeDomainValue = (domain: string): string => {
     return trimLower(domain);
-}
-
-const isValidDomainLabel = (label: string): boolean => {
-    return DOMAIN_LABEL_RE.test(label);
-}
-
-const areValidDomainLabels = (labels: string[]): boolean => {
-    return labels.length > 0 && labels.every((label) => isValidDomainLabel(label));
 }
 
 /**
@@ -71,174 +65,6 @@ export const isSendMailBindingEnabled = (
 export const isAnySendMailEnabled = (c: Context<HonoCustomType>): boolean => {
     const domains = getDomains(c);
     return domains.some(domain => isSendMailEnabled(c, domain));
-}
-
-export const generateRandomName = (c: Context<HonoCustomType>): string => {
-    // name min length min 1
-    const minLength = Math.max(
-        getIntValue(c.env.MIN_ADDRESS_LEN, 1),
-        1
-    );
-    // name max length min 1
-    const maxLength = Math.max(
-        getIntValue(c.env.MAX_ADDRESS_LEN, 30),
-        1
-    );
-
-    // Build full name recursively until minimum length is reached
-    const buildName = (currentName: string = ""): string => {
-        return currentName.length >= minLength
-            ? currentName
-            : buildName(currentName + Math.random().toString(36).substring(2, 15));
-    };
-
-    const fullName = buildName();
-
-    // Return truncated to max length
-    return fullName.substring(0, Math.min(fullName.length, maxLength));
-};
-
-const generateRandomSubdomain = (c: Context<HonoCustomType>): string => {
-    const charset = "abcdefghijklmnopqrstuvwxyz0123456789";
-    const length = Math.min(
-        Math.max(getIntValue(c.env.RANDOM_SUBDOMAIN_LENGTH, DEFAULT_RANDOM_SUBDOMAIN_LENGTH), 1),
-        63
-    );
-    let subdomain = "";
-    for (let i = 0; i < length; i++) {
-        subdomain += charset.charAt(Math.floor(Math.random() * charset.length));
-    }
-    return subdomain;
-}
-
-const allowRandomSubdomainForDomain = (
-    c: Context<HonoCustomType>,
-    domain: string
-): boolean => {
-    const normalizedDomain = normalizeDomainValue(domain);
-    return getRandomSubdomainDomains(c)
-        .map((item) => normalizeDomainValue(item))
-        .includes(normalizedDomain);
-}
-
-const isCreateAddressSubdomainMatchEnvConfigured = (c: Context<HonoCustomType>): boolean => {
-    return c.env.ENABLE_CREATE_ADDRESS_SUBDOMAIN_MATCH !== undefined
-        && c.env.ENABLE_CREATE_ADDRESS_SUBDOMAIN_MATCH !== null
-        && c.env.ENABLE_CREATE_ADDRESS_SUBDOMAIN_MATCH !== "";
-}
-
-export const getAddressCreationSettings = async (
-    c: Context<HonoCustomType>
-): Promise<AddressCreationSettings> => {
-    const value = await getJsonSetting<AddressCreationSettings>(
-        c, CONSTANTS.ADDRESS_CREATION_SETTINGS_KEY
-    );
-    return new AddressCreationSettings(value);
-}
-
-export const getAddressCreationSubdomainMatchStatus = async (
-    c: Context<HonoCustomType>,
-    existingSettings?: AddressCreationSettings
-): Promise<{
-    envConfigured: boolean,
-    envEnabled: boolean,
-    storedEnabled: boolean | undefined,
-    effectiveEnabled: boolean,
-}> => {
-    const envConfigured = isCreateAddressSubdomainMatchEnvConfigured(c);
-    const envEnabled = getBooleanValue(c.env.ENABLE_CREATE_ADDRESS_SUBDOMAIN_MATCH);
-    const addressCreationSettings = existingSettings || await getAddressCreationSettings(c);
-    const storedEnabled = addressCreationSettings.enableSubdomainMatch;
-
-    // 业务约束：env=false 作为全局 kill switch，后台开关不能强行打开。
-    const effectiveEnabled = envConfigured && !envEnabled
-        ? false
-        : typeof storedEnabled === "boolean"
-            ? storedEnabled
-            : envEnabled;
-
-    return {
-        envConfigured,
-        envEnabled,
-        storedEnabled,
-        effectiveEnabled,
-    };
-}
-
-const findMatchedAllowedDomain = (
-    domain: string,
-    allowDomains: string[],
-    enableSubdomainMatch: boolean,
-): string | null => {
-    const normalizedDomain = normalizeDomainValue(domain);
-    if (normalizedDomain.length > MAX_DOMAIN_LENGTH) {
-        return null;
-    }
-    const domainLabels = normalizedDomain.split('.');
-    if (!areValidDomainLabels(domainLabels)) {
-        return null;
-    }
-    const normalizedAllowDomains = allowDomains.map((allowDomain) => normalizeDomainValue(allowDomain));
-    if (normalizedAllowDomains.includes(normalizedDomain)) {
-        return normalizedDomain;
-    }
-    if (!enableSubdomainMatch) {
-        return null;
-    }
-    const matchedDomain = [...normalizedAllowDomains]
-        .sort((a, b) => b.length - a.length)
-        .find((allowDomain) => {
-            if (allowDomain.length > MAX_DOMAIN_LENGTH) {
-                return false;
-            }
-            const allowDomainLabels = allowDomain.split('.');
-            if (!areValidDomainLabels(allowDomainLabels)) {
-                return false;
-            }
-            if (domainLabels.length <= allowDomainLabels.length) {
-                return false;
-            }
-            const prefixLabels = domainLabels.slice(0, domainLabels.length - allowDomainLabels.length);
-            if (!areValidDomainLabels(prefixLabels)) {
-                return false;
-            }
-            return allowDomainLabels.every((label, index) => {
-                return domainLabels[domainLabels.length - allowDomainLabels.length + index] === label;
-            });
-        });
-    return matchedDomain || null;
-}
-
-const checkNameRegex = (c: Context<HonoCustomType>, name: string) => {
-    let error = null;
-    try {
-        const regexStr = getStringValue(c.env.ADDRESS_CHECK_REGEX);
-        if (!regexStr) return;
-        const regex = new RegExp(regexStr);
-        if (!regex.test(name)) {
-            error = new Error(`Name not match regex: /${regexStr}/`);
-        }
-    }
-    catch (e) {
-        console.error("Failed to check address regex", e);
-    }
-    if (error) {
-        throw error;
-    }
-}
-
-const getNameRegex = (c: Context<HonoCustomType>): RegExp => {
-    try {
-        const regex = getStringValue(c.env.ADDRESS_REGEX);
-        if (!regex) {
-            return DEFAULT_NAME_REGEX;
-        }
-        return new RegExp(regex, 'g');
-    }
-    catch (e) {
-        console.error("Failed to get address regex", e);
-    }
-    return DEFAULT_NAME_REGEX;
 }
 
 export function updateAddressUpdatedAt(
@@ -319,165 +145,44 @@ const generatePasswordForAddress = async (
     return plainPassword;
 }
 
-export const isAddressExpired = (expiresAt: string | null | undefined): boolean => {
-    if (!expiresAt) return false;
-    const normalized = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(expiresAt)
-        ? `${expiresAt.replace(' ', 'T')}Z`
-        : expiresAt;
-    const ts = Date.parse(normalized);
-    return Number.isFinite(ts) && ts <= Date.now();
-};
-
-export const withExpiresAtFallback = async <T>(
-    withExpiresAt: () => Promise<T>,
-    withoutExpiresAt: () => Promise<T>,
-    expiryEnabled: boolean = true,
-): Promise<T> => {
-    if (!expiryEnabled) {
-        return await withoutExpiresAt();
-    }
-    try {
-        return await withExpiresAt();
-    } catch (e) {
-        const message = (e as Error)?.message;
-        if (message && message.includes("expires_at")) {
-            return await withoutExpiresAt();
-        }
-        throw e;
-    }
-};
-
-export const hasAddressExpiryInput = (input: {
-    expiresAt?: unknown;
-    expires_at?: unknown;
-    expiresIn?: unknown;
-    expires_in?: unknown;
-}): boolean => (input.expiresAt ?? input.expires_at ?? input.expiresIn ?? input.expires_in) != null;
-
-const normalizeAddressExpiresAt = (
-    expiresAt: unknown,
-    expiresIn: unknown,
-    msgs: ReturnType<typeof i18n.getMessagesbyContext>
-): string | null => {
-    const hasExpiresAt = expiresAt !== undefined && expiresAt !== null;
-    const hasExpiresIn = expiresIn !== undefined && expiresIn !== null;
-    if (hasExpiresAt && hasExpiresIn) {
-        throw new Error(msgs.InvalidExpiresAtMsg);
-    }
-    if (!hasExpiresAt && !hasExpiresIn) {
-        return null;
-    }
-    let timestamp = NaN;
-    if (hasExpiresIn) {
-        if (typeof expiresIn !== 'number' || !Number.isFinite(expiresIn) || expiresIn <= 0) {
-            throw new Error(msgs.InvalidExpiresAtMsg);
-        }
-        timestamp = Date.now() + expiresIn * 1000;
-    } else if (typeof expiresAt === 'number') {
-        timestamp = expiresAt;
-    } else if (typeof expiresAt === 'string') {
-        const trimmed = expiresAt.trim();
-        if (!trimmed) {
-            throw new Error(msgs.InvalidExpiresAtMsg);
-        }
-        const normalized = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(trimmed)
-            ? `${trimmed.replace(' ', 'T')}Z`
-            : trimmed;
-        const isoDate = /^(\d{4})-(\d{2})-(\d{2})/.exec(normalized);
-        if (isoDate) {
-            const [year, month, day] = isoDate.slice(1).map(Number);
-            const calendarDate = new Date(Date.UTC(year, month - 1, day));
-            if (
-                calendarDate.getUTCFullYear() !== year
-                || calendarDate.getUTCMonth() !== month - 1
-                || calendarDate.getUTCDate() !== day
-            ) {
-                throw new Error(msgs.InvalidExpiresAtMsg);
-            }
-        }
-        timestamp = Date.parse(normalized);
-    }
-    if (!Number.isFinite(timestamp) || Math.floor(timestamp / 1000) <= Math.floor(Date.now() / 1000)) {
-        throw new Error(msgs.InvalidExpiresAtMsg);
-    }
-    const date = new Date(timestamp);
-    if (!Number.isFinite(date.getTime()) || date.getUTCFullYear() > 9999) {
-        throw new Error(msgs.InvalidExpiresAtMsg);
-    }
-    return date.toISOString().slice(0, 19).replace('T', ' ');
-}
-
-const insertAddressRecordLegacy = async (
-    c: Context<HonoCustomType>,
-    address: string,
-    sourceMeta: string | undefined | null,
-    msgs: ReturnType<typeof i18n.getMessagesbyContext>
-): Promise<null> => {
-    try {
-        const result = await c.env.DB.prepare(
-            `INSERT INTO address(name, source_meta) VALUES(?, ?)`
-        ).bind(address, sourceMeta).run();
-        if (!result.success) {
-            throw new Error(msgs.FailedCreateAddressMsg)
-        }
-        return null;
-    } catch (e) {
-        const message = (e as Error).message;
-        if (message && message.includes("source_meta")) {
-            const result = await c.env.DB.prepare(
-                `INSERT INTO address(name) VALUES(?)`
-            ).bind(address).run();
-            if (!result.success) {
-                throw new Error(msgs.FailedCreateAddressMsg)
-            }
-            return null;
-        }
-        throw e;
-    }
-}
-
 const insertAddressRecord = async (
     c: Context<HonoCustomType>,
     address: string,
     sourceMeta: string | undefined | null,
-    expiryEnabled: boolean,
-    resolveExpiresAt: () => string | null,
+    expiresAt: string | number | null,
     msgs: ReturnType<typeof i18n.getMessagesbyContext>
-): Promise<string | null> => {
-    if (!expiryEnabled) {
-        return await insertAddressRecordLegacy(c, address, sourceMeta, msgs);
+): Promise<void> => {
+    const writeExpiry = isAddressExpiryEnabled(c) && expiresAt != null;
+    if (writeExpiry) {
+        const expiry = normalizeAddressExpiresAt(expiresAt, msgs);
+        try {
+            const { success } = await c.env.DB.prepare(
+                `INSERT INTO address(name, source_meta, expires_at) VALUES(?, ?, ?)`
+            ).bind(address, sourceMeta, expiry).run();
+            if (success) return;
+        } catch (e) {
+            if (!(e as Error).message?.includes("source_meta")) throw e;
+            const { success } = await c.env.DB.prepare(
+                `INSERT INTO address(name, expires_at) VALUES(?, ?)`
+            ).bind(address, expiry).run();
+            if (success) return;
+        }
+        throw new Error(msgs.FailedCreateAddressMsg);
     }
-    const expiresAt = resolveExpiresAt();
+
     try {
-        const result = await c.env.DB.prepare(
-            `INSERT INTO address(name, source_meta, expires_at) VALUES(?, ?, ?)`
-        ).bind(address, sourceMeta, expiresAt).run();
-        if (!result.success) {
-            throw new Error(msgs.FailedCreateAddressMsg)
-        }
-        return expiresAt;
+        const { success } = await c.env.DB.prepare(
+            `INSERT INTO address(name, source_meta) VALUES(?, ?)`
+        ).bind(address, sourceMeta).run();
+        if (success) return;
     } catch (e) {
-        const message = (e as Error).message;
-        // Fallback: expires_at or source_meta field may not exist on un-migrated DBs
-        if (message && message.includes("expires_at") && expiresAt === null) {
-            return await insertAddressRecordLegacy(c, address, sourceMeta, msgs);
-        }
-        if (message && message.includes("source_meta")) {
-            const fallbackExpiresAt = resolveExpiresAt();
-            const result = fallbackExpiresAt !== null
-                ? await c.env.DB.prepare(
-                    `INSERT INTO address(name, expires_at) VALUES(?, ?)`
-                ).bind(address, fallbackExpiresAt).run()
-                : await c.env.DB.prepare(
-                    `INSERT INTO address(name) VALUES(?)`
-                ).bind(address).run();
-            if (!result.success) {
-                throw new Error(msgs.FailedCreateAddressMsg)
-            }
-            return fallbackExpiresAt;
-        }
-        throw e;
+        if (!(e as Error).message?.includes("source_meta")) throw e;
+        const { success } = await c.env.DB.prepare(
+            `INSERT INTO address(name) VALUES(?)`
+        ).bind(address).run();
+        if (success) return;
     }
+    throw new Error(msgs.FailedCreateAddressMsg);
 }
 
 export const newAddress = async (
@@ -493,7 +198,6 @@ export const newAddress = async (
         enableCheckNameRegex = true,
         sourceMeta = null,
         expiresAt = null,
-        expiresIn = null,
     }: {
         name: string, domain: string | undefined | null,
         enablePrefix: boolean,
@@ -504,17 +208,11 @@ export const newAddress = async (
         enableCheckNameRegex?: boolean,
         sourceMeta?: string | undefined | null,
         expiresAt?: string | number | null,
-        expiresIn?: number | null,
     }
-): Promise<{ address: string, jwt: string, password?: string | null, address_id: number, expires_at?: string | null }> => {
+): Promise<{ address: string, jwt: string, password?: string | null, address_id: number }> => {
     const msgs = i18n.getMessagesbyContext(c);
-    const expiryEnabled = getBooleanValue(c.env.ENABLE_ADDRESS_EXPIRY);
-    if (!expiryEnabled && hasAddressExpiryInput({ expiresAt, expiresIn })) {
+    if (shouldRejectExpiryInput(c, expiresAt)) {
         throw new Error(msgs.AddressExpiryDisabledMsg);
-    }
-    if (expiryEnabled) {
-        // Validate expiry inputs early before domain/settings work; relative expiresIn deadline is recomputed at insert time.
-        normalizeAddressExpiresAt(expiresAt, expiresIn, msgs);
     }
     // trim whitespace and remove special characters
     name = name.trim().replace(getNameRegex(c), '')
@@ -583,14 +281,7 @@ export const newAddress = async (
         const address = `${name}@${addressDomain}`;
 
         try {
-            const writtenExpiresAt = await insertAddressRecord(
-                c,
-                address,
-                sourceMeta,
-                expiryEnabled,
-                () => normalizeAddressExpiresAt(expiresAt, expiresIn, msgs),
-                msgs
-            );
+            await insertAddressRecord(c, address, sourceMeta, expiresAt, msgs);
             await updateAddressUpdatedAt(c, address);
 
             const address_id = await c.env.DB.prepare(
@@ -611,7 +302,6 @@ export const newAddress = async (
                 address: address,
                 password: generatedPassword,
                 address_id: address_id,
-                ...(expiryEnabled ? { expires_at: writtenExpiresAt } : {}),
             }
         } catch (e) {
             const message = (e as Error).message;
@@ -631,22 +321,6 @@ export const newAddress = async (
     throw new Error(msgs.FailedCreateAddressMsg)
 }
 
-const checkNameBlockList = async (
-    c: Context<HonoCustomType>, name: string
-): Promise<void> => {
-    // check name block list
-    const blockList = [] as string[];
-    try {
-        const value = await getJsonSetting(c, CONSTANTS.ADDRESS_BLOCK_LIST_KEY);
-        blockList.push(...(value || []));
-    } catch (error) {
-        console.error(error);
-    }
-    if (blockList.some((item) => name.includes(item))) {
-        throw new Error(`Name[${name}]is blocked`);
-    }
-}
-
 export const cleanup = async (
     c: Context<HonoCustomType>,
     cleanType: string | undefined | null,
@@ -664,7 +338,7 @@ export const cleanup = async (
     if (!Number.isInteger(cleanupBatchSize) || cleanupBatchSize < 1 || cleanupBatchSize > 5000) {
         cleanupBatchSize = 3000;
     }
-    console.log(cleanType === "expiredAddress" ? `Cleanup ${cleanType}` : `Cleanup ${cleanType} before ${cleanDays} days`);
+    console.log(`Cleanup ${cleanType} before ${cleanDays} days`);
     switch (cleanType) {
         case "inactiveAddress":
             await batchDeleteAddressWithData(
@@ -737,7 +411,7 @@ export const cleanup = async (
             )
             break;
         case "expiredAddress": {
-            if (!getBooleanValue(c.env.ENABLE_ADDRESS_EXPIRY)) {
+            if (!isAddressExpiryEnabled(c)) {
                 throw new Error(msgs.AddressExpiryDisabledMsg);
             }
             await cleanupExpiredAddresses(c, cleanupBatchSize);
@@ -995,71 +669,6 @@ export const handleMailListQuery = async (
         countQuery
     ).bind(...params).first("count") : 0;
     return c.json({ results: resolvedResults, count });
-}
-
-export const commonParseMail = async (parsedEmailContext: ParsedEmailContext): Promise<{
-    sender: string,
-    subject: string,
-    text: string,
-    html: string,
-    headers?: Record<string, string>[],
-    attachments?: ParsedEmailAttachment[],
-} | undefined> => {
-    // check parsed email context is valid
-    if (!parsedEmailContext || !parsedEmailContext.rawEmail) {
-        return undefined;
-    }
-    // return parsed email if already parsed
-    if (parsedEmailContext.parsedEmail) {
-        return parsedEmailContext.parsedEmail;
-    }
-    const raw_mail = parsedEmailContext.rawEmail;
-    // NOTE: WASM parse email
-    // try {
-    //     const { parse_message_wrapper } = await import('mail-parser-wasm-worker');
-
-    //     const parsedEmail = parse_message_wrapper(raw_mail);
-    //     parsedEmailContext.parsedEmail = {
-    //         sender: parsedEmail.sender || "",
-    //         subject: parsedEmail.subject || "",
-    //         text: parsedEmail.text || "",
-    //         headers: parsedEmail.headers?.map(
-    //             (header) => ({ key: header.key, value: header.value })
-    //         ) || [],
-    //         html: parsedEmail.body_html || "",
-    //         attachments: (parsedEmail.attachments || []).map(att => ({
-    //             filename: att.filename || "attachment",
-    //             mimeType: att.content_type || "application/octet-stream",
-    //             content: att.content,
-    //             disposition: "attachment",
-    //         })),
-    //     };
-    //     return parsedEmailContext.parsedEmail;
-    // } catch (e) {
-    //     console.error("Failed use mail-parser-wasm-worker to parse email", e);
-    // }
-    try {
-        const { default: PostalMime } = await import('postal-mime');
-        const parsedEmail = await PostalMime.parse(raw_mail);
-        parsedEmailContext.parsedEmail = {
-            sender: parsedEmail.from ? `${parsedEmail.from.name} <${parsedEmail.from.address}>` : "",
-            subject: parsedEmail.subject || "",
-            text: parsedEmail.text || "",
-            html: parsedEmail.html || "",
-            headers: parsedEmail.headers || [],
-            attachments: (parsedEmail.attachments || []).map(att => ({
-                filename: att.filename || "attachment",
-                mimeType: att.mimeType || "application/octet-stream",
-                content: new Uint8Array(att.content),
-                disposition: att.disposition || "attachment",
-            })),
-        };
-        return parsedEmailContext.parsedEmail;
-    }
-    catch (e) {
-        console.error("Failed use PostalMime to parse email", e);
-    }
-    return undefined;
 }
 
 export const commonGetUserRole = async (
